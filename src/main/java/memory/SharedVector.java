@@ -1,5 +1,7 @@
 package memory;
 
+import parser.OutputWriter;
+
 import java.util.concurrent.locks.ReadWriteLock;
 
 public class SharedVector {
@@ -9,58 +11,202 @@ public class SharedVector {
     private ReadWriteLock lock = new java.util.concurrent.locks.ReentrantReadWriteLock();
 
     public SharedVector(double[] vector, VectorOrientation orientation) {
-        // TODO: store vector data and its orientation
+        /// store vector data and its orientation
+
+        this.vector = vector;
+        this.orientation = orientation;
     }
 
-    public double get(int index) {
-        // TODO: return element at index (read-locked)
-        return 0;
+    public double get(int index) throws Exception {
+        /// return element at index (read-locked)
+
+        readLock();
+        try {
+            if (index >= vector.length)
+                OutputWriter.write("Index Out Of Bound", "out.json");
+                //TODO--> MAYBE NEED TO THROW EXCEPTION
+            return vector[index];
+        }
+        finally {
+            readUnlock();
+        }
     }
 
     public int length() {
-        // TODO: return vector length
-        return 0;
+        /// return vector length
+
+        readLock();
+        try{
+            return vector.length;
+        }
+        finally {
+            readUnlock();
+        }
     }
 
     public VectorOrientation getOrientation() {
-        // TODO: return vector orientation
-        return null;
+        /// return vector orientation
+
+        readLock();
+        try{
+            return orientation;
+        }
+        finally {
+            readUnlock();
+        }
     }
 
     public void writeLock() {
-        // TODO: acquire write lock
+        /// acquire write lock
+
+        lock.writeLock().lock();
     }
 
     public void writeUnlock() {
-        // TODO: release write lock
+        /// release write lock
+
+        lock.writeLock().unlock();
     }
 
     public void readLock() {
-        // TODO: acquire read lock
+        /// acquire read lock
+
+        lock.readLock().lock();
     }
 
     public void readUnlock() {
-        // TODO: release read lock
+        /// release read lock
+
+        lock.readLock().unlock();
     }
 
     public void transpose() {
-        // TODO: transpose vector
+        /// transpose vector
+
+        writeLock();
+        try {
+            if (orientation == VectorOrientation.ROW_MAJOR)
+                    orientation = VectorOrientation.COLUMN_MAJOR;
+            else
+                orientation = VectorOrientation.ROW_MAJOR;
+        }
+        finally {
+            writeUnlock();
+        }
     }
 
-    public void add(SharedVector other) {
-        // TODO: add two vectors
+    public void add(SharedVector other) throws Exception {
+        /// add two vectors
+
+        writeLock();
+        try{
+            if (this.vector.length != other.vector.length)
+                OutputWriter.write("Vectors Length Dismatch", "out.json");
+            if (this.orientation != other.orientation)
+                OutputWriter.write("Vectors Orientation Dismatch", "out.json");
+            other.readLock();
+            for (int i = 0; i < vector.length; i++)
+                vector[i] += other.vector[i];
+            other.readUnlock();
+        }
+        finally{
+            writeUnlock();
+        }
+
     }
 
-    public void negate() {
-        // TODO: negate vector
+    public void negate()
+    {
+        /// negate vector
+
+        writeLock();
+        try {
+            for (int i = 0; i < vector.length; i++)
+                vector[i] *= -1;
+        }
+        finally {
+            writeUnlock();
+        }
     }
 
-    public double dot(SharedVector other) {
-        // TODO: compute dot product (row · column)
-        return 0;
+    public double dot(SharedVector other) throws Exception {
+        /// compute dot product (row · column)
+
+        readLock();
+        try {
+            if (this.vector.length != other.vector.length)
+                OutputWriter.write("Vectors Length Dismatch", "out.json");
+            if (this.orientation == other.orientation)
+                OutputWriter.write("Vectors Orientation Dismatch", "out.json");
+
+            int sum = 0;
+            other.readLock();
+            for (int i = 0; i < vector.length; i++)
+                sum += vector[i] * other.vector[i];
+            other.readUnlock();
+            return sum;
+        }
+        finally {
+            readUnlock();
+        }
     }
 
-    public void vecMatMul(SharedMatrix matrix) {
-        // TODO: compute row-vector × matrix
+    public void vecMatMul(SharedMatrix matrix) throws Exception {
+        /// compute row-vector × matrix
+
+        int thisOBJ=System.identityHashCode(this);
+        int matrixOBJ=System.identityHashCode(matrix);
+        if(thisOBJ<=matrixOBJ) {
+            this.writeLock();
+            acquireAllVectorReadLocks(matrix);
+        }
+        else
+        {
+            acquireAllVectorReadLocks(matrix);
+            this.writeLock();
+        }
+
+
+        try{
+            if (orientation != VectorOrientation.ROW_MAJOR)
+                OutputWriter.write("Vector Orientation Dismatch", "out.json");
+            if (matrix.getOrientation() != VectorOrientation.COLUMN_MAJOR)
+                OutputWriter.write("Matrix Orientation Dismatch", "out.json");
+            if (vector.length != matrix.length() || vector.length != matrix.get(0).length())
+                OutputWriter.write("Vector & Matrix Length Dismatch", "out.json");
+
+            double[] newVector = new double[vector.length];
+
+            for (int i = 0; i < vector.length; i++) {
+                double sum = 0;
+                for (int j = 0; j < vector.length; j++)
+                    sum += vector[j] * matrix.get(i).vector[j];
+
+                newVector[i] = sum;
+            }
+            for (int i = 0; i < vector.length; i++)
+                vector[i] = newVector[i];
+        }
+        finally {
+            if(thisOBJ<=matrixOBJ) {
+                releaseAllVectorReadLocks(matrix);
+                this.writeUnlock();
+            }
+            else
+            {
+                this.writeUnlock();
+                releaseAllVectorReadLocks(matrix);
+            }
+        }
+    }
+
+    private void acquireAllVectorReadLocks(SharedMatrix matrix) {
+        for (int i = 0; i < matrix.length(); i++)
+            matrix.get(i).readLock();
+    }
+
+    private void releaseAllVectorReadLocks(SharedMatrix matrix) {
+        for (int i = 0; i < matrix.length(); i++)
+            matrix.get(i).readUnlock();
     }
 }
