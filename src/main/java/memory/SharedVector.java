@@ -2,6 +2,7 @@ package memory;
 
 import parser.OutputWriter;
 
+import java.io.IOException;
 import java.util.concurrent.locks.ReadWriteLock;
 
 public class SharedVector {
@@ -23,8 +24,11 @@ public class SharedVector {
         readLock();
         try {
             if (index >= vector.length)
+            {
                 OutputWriter.write("Index Out Of Bound", "out.json");
-                //TODO--> MAYBE NEED TO THROW EXCEPTION
+                throw new IndexOutOfBoundsException("Index Out Of Bound");
+            }
+
             return vector[index];
         }
         finally {
@@ -95,7 +99,7 @@ public class SharedVector {
         }
     }
 
-    public void add(SharedVector other) throws Exception {
+    public void add(SharedVector other) {
         /// add two vectors
 
         int thisOBJ = System.identityHashCode(this);
@@ -114,11 +118,10 @@ public class SharedVector {
             if (this.orientation != other.orientation)
                 OutputWriter.write("Vectors Orientation Dismatch", "out.json");
 
-
             for (int i = 0; i < vector.length; i++)
                 vector[i] += other.vector[i];
+        } catch (IOException ignored) {}
 
-        }
         finally {
             if (thisOBJ <= matrixOBJ) {///THIS IS TO ALWAYS LOCK/UNLOCK IN THE SAME ORDER
                 other.readLock();
@@ -145,7 +148,7 @@ public class SharedVector {
         }
     }
 
-    public double dot(SharedVector other) throws Exception {
+    public double dot(SharedVector other) {
         /// compute dot product (row · column)
 
         int thisOBJ = System.identityHashCode(this);
@@ -170,8 +173,8 @@ public class SharedVector {
                 sum += vector[i] * other.vector[i];
 
             return sum;
-        }
-        finally {///THIS IS TO ALWAYS LOCK/UNLOCK IN THE SAME ORDER
+        } catch (IOException ignored) {}
+        finally { // THIS IS TO ALWAYS LOCK/UNLOCK IN THE SAME ORDER
             if (thisOBJ <= matrixOBJ) {
                 other.readUnlock();
                 this.readUnlock();
@@ -181,9 +184,10 @@ public class SharedVector {
                 other.readUnlock();
             }
         }
+        return 0;
     }
 
-    public void vecMatMul(SharedMatrix matrix) throws Exception {
+    public void vecMatMul(SharedMatrix matrix) {
         /// compute row-vector × matrix
 
         int thisOBJ = System.identityHashCode(this);
@@ -208,15 +212,14 @@ public class SharedVector {
 
             for (int i = 0; i < matrix.length(); i++) {
                 double sum = 0;
-                for (int j = 0; j < vector.length; j++)
-                    sum += vector[j] * matrix.get(i).vector[j];
+                sum = NoLockDot(matrix.get(i));
 
                 newVector[i] = sum;
             }
 
             vector = new double[matrix.length()];
             System.arraycopy(newVector, 0, vector, 0, vector.length);
-        }
+        } catch (IOException ignored) {}
         finally {
             if (thisOBJ <= matrixOBJ) {
                 releaseAllVectorReadLocks(matrix);
@@ -239,5 +242,21 @@ public class SharedVector {
             matrix.get(i).readUnlock();
     }
 
+    private double NoLockDot(SharedVector other)
+    {
+        /// compute dot product (row · column)
 
+        try {
+            if (this.vector.length != other.vector.length)
+                OutputWriter.write("Vectors Length Dismatch", "out.json");
+            if (this.orientation == other.orientation)
+                OutputWriter.write("Vectors Orientation Dismatch", "out.json");
+        } catch (IOException ignored) {}
+
+        double sum = 0;
+        for (int i = 0; i < vector.length; i++)
+            sum += vector[i] * other.vector[i];
+
+        return sum;
+    }
 }
