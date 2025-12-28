@@ -23,7 +23,10 @@ public class LinearAlgebraEngine {
     public ComputationNode run(ComputationNode computationRoot) {
         /// resolve computation tree step by step until final matrix is produced
 
-        return computationRoot.findResolvable();
+        try {
+            loadAndCompute(computationRoot);
+        } catch (Exception ignored) {}
+        return computationRoot;
     }
 
     public void loadAndCompute(ComputationNode node) throws Exception {
@@ -33,33 +36,43 @@ public class LinearAlgebraEngine {
         while (node != null && node.findResolvable() != null) {
 
             List<Runnable> tasks = List.of();
-            ComputationNode resolvablePointer=node.findResolvable();
-            resolvablePointer.associativeNesting(); // so i make sure each node only has 2 leaves like said it turns A+B+C to (A+B)+C
+            ComputationNode resolvablePointer = node.findResolvable(); // A+B+C+D
+            while (resolvablePointer.getChildren().size() > 2) {
+                resolvablePointer.associativeNesting();
+                resolvablePointer = resolvablePointer.findResolvable();
+                // This ensures resolvable pointer has exactly 2 children, because having 1 child is impossible and 0 children means its a MATRIX
+                // and if the node is a matrix, then node.resolvable is null and the while block would stop
+            }
 
             leftMatrix = new SharedMatrix(resolvablePointer.getChildren().get(0).getMatrix());
-            try {
+            rightMatrix = null;
+
+            if (resolvablePointer.getChildren().size() == 2)
                 rightMatrix = new SharedMatrix(resolvablePointer.getChildren().get(1).getMatrix());
-            } catch (Exception ignored) {}
 
             switch (resolvablePointer.getNodeType())
             {
                 case ADD:
                 {
+                    System.out.println("ADD");
                     tasks = createAddTasks();
                     break;
                 }
                 case MULTIPLY:
                 {
+                    System.out.println("MULTIPLY");
                     tasks = createMultiplyTasks();
                     break;
                 }
                 case NEGATE:
                 {
+                    System.out.println("NEGATE");
                     tasks = createNegateTasks();
                     break;
                 }
                 case TRANSPOSE:
                 {
+                    System.out.println("TRANSPOSE");
                     tasks = createTransposeTasks();
                     break;
                 }
@@ -68,6 +81,7 @@ public class LinearAlgebraEngine {
             executor.submitAll(tasks);
             resolvablePointer.resolve(leftMatrix.readRowMajor());
         }
+        executor.shutdown();
     }
 
 
@@ -88,6 +102,13 @@ public class LinearAlgebraEngine {
 
     public List<Runnable> createMultiplyTasks() {
         /// return tasks that perform row × matrix multiplication
+        // TODO we most likely get matrices as ROW-MAJOR , but our multiply only works on columns, and a simple transpose doesnt help
+        // TODO so we need to somehow lad th matrix to columns, maybe by load column major or something
+        // TODO hust get the matrix and load column major , thats it
+        if (leftMatrix.getOrientation() != VectorOrientation.ROW_MAJOR)
+            transpose(leftMatrix);
+        if (leftMatrix.getOrientation() != VectorOrientation.COLUMN_MAJOR)
+            transpose(rightMatrix);
 
         List<Runnable> tasks = new ArrayList<>(leftMatrix.length());
         for (int i = 0; i < leftMatrix.length(); i++) {

@@ -16,9 +16,10 @@ public class SharedVector {
 
         this.vector = vector;
         this.orientation = orientation;
+
     }
 
-    public double get(int index) throws Exception {
+    public double get(int index) {
         /// return element at index (read-locked)
 
         readLock();
@@ -30,10 +31,11 @@ public class SharedVector {
             }
 
             return vector[index];
-        }
+        } catch (Exception ignored) {}
         finally {
             readUnlock();
         }
+        return 0.0;
     }
 
     public int length() {
@@ -123,7 +125,7 @@ public class SharedVector {
         } catch (IOException ignored) {}
 
         finally {
-            if (thisOBJ <= matrixOBJ) {///THIS IS TO ALWAYS LOCK/UNLOCK IN THE SAME ORDER
+            if (thisOBJ <= matrixOBJ) { // THIS IS TO ALWAYS LOCK/UNLOCK IN THE SAME ORDER
                 other.readLock();
                 this.readLock();
             }
@@ -149,58 +151,52 @@ public class SharedVector {
     }
 
     public double dot(SharedVector other) {
-        /// compute dot product (row · column)
-
         int thisOBJ = System.identityHashCode(this);
-        int matrixOBJ = System.identityHashCode(other);
-        if (thisOBJ <= matrixOBJ) {///THIS IS TO ALWAYS LOCK/UNLOCK IN THE SAME ORDER
+        int otherOBJ = System.identityHashCode(other);
+
+        if (thisOBJ <= otherOBJ) {
             this.readLock();
             other.readLock();
-        }
-        else {
+        } else {
             other.readLock();
             this.readLock();
         }
 
         try {
-            if (this.vector.length != other.vector.length)
-                OutputWriter.write("Vectors Length Dismatch", "out.json");
-            if (this.orientation == other.orientation)
-                OutputWriter.write("Vectors Orientation Dismatch", "out.json");
+            if (this.vector.length != other.vector.length) {
+                OutputWriter.write("Vectors Length Mismatch","out.json");
+                throw new IllegalArgumentException("Vectors Length Mismatch");
+            }
+            if (this.orientation == other.orientation) {
+                OutputWriter.write("Vectors Orientation Mismatch","out.json");
+                throw new IllegalArgumentException("Vectors Orientation Mismatch");
+            }
 
             double sum = 0;
             for (int i = 0; i < vector.length; i++)
                 sum += vector[i] * other.vector[i];
 
             return sum;
-        } catch (IOException ignored) {}
-        finally { // THIS IS TO ALWAYS LOCK/UNLOCK IN THE SAME ORDER
-            if (thisOBJ <= matrixOBJ) {
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (thisOBJ <= otherOBJ) {
                 other.readUnlock();
                 this.readUnlock();
-            }
-            else {
+            } else {
                 this.readUnlock();
                 other.readUnlock();
             }
         }
-        return 0;
     }
+
 
     public void vecMatMul(SharedMatrix matrix) {
         /// compute row-vector × matrix
-
-        int thisOBJ = System.identityHashCode(this);
-        int matrixOBJ = System.identityHashCode(matrix);
-        if (thisOBJ <= matrixOBJ) {
-            this.writeLock();
-            acquireAllVectorReadLocks(matrix);
-        }
-        else {
-            acquireAllVectorReadLocks(matrix);
-            this.writeLock();
-        }
-
+        this.writeLock();
+        // IMPORTANT
+        // in this method we assume we get a vector by columns, in the LAE class before sending to here, we will LoadColumnMajor
         try {
             if (orientation != VectorOrientation.ROW_MAJOR)
                 OutputWriter.write("Vector Orientation Dismatch", "out.json");
@@ -223,7 +219,6 @@ public class SharedVector {
         finally {
             if (thisOBJ <= matrixOBJ) {
                 releaseAllVectorReadLocks(matrix);
-                this.writeUnlock();
             }
             else {
                 this.writeUnlock();
@@ -242,21 +237,48 @@ public class SharedVector {
             matrix.get(i).readUnlock();
     }
 
-    private double NoLockDot(SharedVector other)
-    {
-        /// compute dot product (row · column)
-
+    private void handleVecMatMulWithColumnMatrix(SharedMatrix matrix) {
+        ///Here We know we get a column displayed matrix
         try {
-            if (this.vector.length != other.vector.length)
-                OutputWriter.write("Vectors Length Dismatch", "out.json");
-            if (this.orientation == other.orientation)
-                OutputWriter.write("Vectors Orientation Dismatch", "out.json");
-        } catch (IOException ignored) {}
+            if (this.length() != matrix.get(0).length())
+                throw new IllegalArgumentException("Matrix Length Mismatch");
+           double[] vector = new double[matrix.length()];
+           for (int i = 0; i < vector.length; i++)
+               vector[i] = UnsafeDot(matrix.get(i));
 
-        double sum = 0;
-        for (int i = 0; i < vector.length; i++)
-            sum += vector[i] * other.vector[i];
+           this.vector = vector;
+        }
+        catch (Exception e) {
+            try {
+                OutputWriter.write(e.getMessage(),"out.json");
+            }
+            catch (IOException ioe) {
+                throw new RuntimeException(e);
+            }
+            throw e;
 
-        return sum;
+        }
+    }
+
+    private double UnsafeDot(SharedVector other){
+        try {
+            if (this.vector.length != other.vector.length) {
+                OutputWriter.write("Vectors Length Mismatch", "out.json");
+                throw new IllegalArgumentException("Vectors Length Mismatch");
+            }
+            if (this.orientation == other.orientation) {
+                OutputWriter.write("Vectors Orientation Mismatch", "out.json");
+                throw new IllegalArgumentException("Vectors Orientation Mismatch");
+            }
+
+            double sum = 0;
+            for (int i = 0; i < vector.length; i++)
+                sum += vector[i] * other.vector[i];
+
+            return sum;
+        }
+        catch (IOException e) {
+           throw new RuntimeException(e);
+        }
     }
 }

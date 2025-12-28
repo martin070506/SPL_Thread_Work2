@@ -116,7 +116,7 @@ public class SharedVectorTest {
         assertEquals(sVec1.length(),3);
     }
 
-    @Test void MultiplyTest() throws Exception {
+    @Test void MultiplyTest1() throws Exception {
         double []result = new double[]{39,65,99};
         for (int i = 0; i < sMatrix1.length(); i++)
         {
@@ -130,6 +130,37 @@ public class SharedVectorTest {
             assertEquals(sVec1.get(i),result[i],0);
         }
     }
+
+    @Test void MultiplyTest2() throws Exception {
+        try {
+            sVec1.vecMatMul(sMatrix1);
+            assertEquals(true,false);
+        }
+        catch (Exception ignored) {
+            System.out.println("was here");
+            assertEquals(true,true);
+        }
+
+    }
+    @Test void MultiplyTest3() throws Exception {
+        try {
+            double[] result = new double[]{46,46,46,55,57};
+            sMatrix1.loadColumnMajor(sMatrix1.readRowMajor());
+            SharedVector sVec5=new SharedVector(new double[]{4.0,2.0,5.0},VectorOrientation.ROW_MAJOR);
+            sVec5.vecMatMul(sMatrix1);
+            assertEquals(true,true);
+            assertEquals(sVec5.length(),5);
+            for (int i=0;i<sVec5.length();i++){
+                System.out.println("Expected: " + result[i] + " Got: " +  sVec5.get(i));
+            }
+        }
+        catch (Exception ignored) {
+            System.out.println("was here");
+            assertEquals(true,false);
+        }
+
+    }
+
 
 
     @Test

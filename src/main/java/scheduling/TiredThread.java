@@ -2,6 +2,7 @@ package scheduling;
 
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -56,7 +57,10 @@ public class TiredThread extends Thread implements Comparable<TiredThread> {
      * it throws IllegalStateException.
      */
     public void newTask(Runnable task) {
-       // TODO
+        ///
+
+        if (!handoff.offer(task))
+            throw new IllegalStateException();
     }
 
     /**
@@ -64,17 +68,48 @@ public class TiredThread extends Thread implements Comparable<TiredThread> {
      * Inserts a poison pill so the worker wakes up and exits.
      */
     public void shutdown() {
-       // TODO
+        ///
+        newTask(POISON_PILL);
     }
 
     @Override
     public void run() {
-       // TODO
+
+        while (alive.get()) {
+            try {
+                Runnable task = handoff.take();
+
+                timeIdle.addAndGet(System.nanoTime() - idleStartTime.get());
+
+                if (task == POISON_PILL){
+                    interrupt();
+                    alive.set(false);
+                }
+
+
+                busy.set(true);
+                long startWorkTime = System.nanoTime();
+
+                try {
+                    task.run();
+                } catch (RuntimeException ignored) {}
+                finally {
+                    timeUsed.addAndGet(System.nanoTime() - startWorkTime);
+                    busy.set(false);
+                    idleStartTime.set(System.nanoTime());
+                }
+
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+                break;
+            }
+        }
     }
 
     @Override
     public int compareTo(TiredThread o) {
-        // TODO
-        return 0;
+        ///
+
+        return Double.compare(this.getFatigue(), o.getFatigue());
     }
 }
