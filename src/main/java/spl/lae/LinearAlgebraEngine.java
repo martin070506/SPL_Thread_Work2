@@ -104,11 +104,22 @@ public class LinearAlgebraEngine {
         // TODO we most likely get matrices as ROW-MAJOR , but our multiply only works on columns, and a simple transpose doesnt help
         // TODO so we need to somehow lad th matrix to columns, maybe by load column major or something
         // TODO hust get the matrix and load column major , thats it
+        try{
+            if (leftMatrix.getOrientation() != VectorOrientation.ROW_MAJOR)
+                transpose(leftMatrix);
+            if (leftMatrix.getOrientation() != VectorOrientation.COLUMN_MAJOR)
+                transpose(rightMatrix);
+            if(leftMatrix.get(0).length()!=rightMatrix.length()){
+                throw new IllegalArgumentException("Matrix Length Mismatch");
 
-        if (leftMatrix.getOrientation() != VectorOrientation.ROW_MAJOR)
-            transpose(leftMatrix);
-        if (leftMatrix.getOrientation() != VectorOrientation.COLUMN_MAJOR)
-            transpose(rightMatrix);
+            }
+
+        }catch(Exception e){
+            System.out.println("reached HEre");
+            executor.shutdown();
+            throw new RuntimeException(e.getMessage());
+        }
+
 
         List<Runnable> tasks = new ArrayList<>(leftMatrix.length());
         for (int i = 0; i < leftMatrix.length(); i++) {

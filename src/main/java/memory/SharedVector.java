@@ -25,14 +25,15 @@ public class SharedVector {
         readLock();
         try {
             if (index >= vector.length)
-                OutputWriter.write("Index Out Of Bound", "out.json");
+                throw new IndexOutOfBoundsException("Index out of bounds: " + index);
 
             return vector[index];
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
         finally {
             readUnlock();
         }
-        return 0.0;
     }
 
     public int length() {
@@ -113,13 +114,15 @@ public class SharedVector {
         }
         try {
             if (this.vector.length != other.vector.length)
-                OutputWriter.write("Vectors Length Dismatch", "out.json");
+                throw new IllegalArgumentException("Vector lengths don't match");
             if (this.orientation != other.orientation)
-                OutputWriter.write("Vectors Orientation Dismatch", "out.json");
+                throw new IllegalArgumentException("Vectors Orientation Dismatch");
 
             for (int i = 0; i < vector.length; i++)
                 vector[i] += other.vector[i];
-        } catch (IOException ignored) {}
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
         finally {
             if (thisOBJ <= matrixOBJ) { // THIS IS TO ALWAYS LOCK/UNLOCK IN THE SAME ORDER
                 other.readLock();
@@ -160,11 +163,9 @@ public class SharedVector {
 
         try {
             if (this.vector.length != other.vector.length) {
-                OutputWriter.write("Vectors Length Mismatch","out.json");
                 throw new IllegalArgumentException("Vectors Length Mismatch");
             }
             if (this.orientation == other.orientation) {
-                OutputWriter.write("Vectors Orientation Mismatch","out.json");
                 throw new IllegalArgumentException("Vectors Orientation Mismatch");
             }
 
@@ -174,8 +175,8 @@ public class SharedVector {
 
             return sum;
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         } finally {
             if (thisOBJ <= otherOBJ) {
                 other.readUnlock();
@@ -195,37 +196,31 @@ public class SharedVector {
         // in this method we assume we get a vector by columns, in the LAE class before sending to here, we will LoadColumnMajor
         try {
             if (orientation != VectorOrientation.ROW_MAJOR){
-                OutputWriter.write("Vector Orientation Should Be ROWMAJOR", "out.json");
                 throw new IllegalArgumentException("Vector Orientation Should Be ROWMAJOR");
             }
             // HERE WE Split into cases where we are given row matrix(we will load column) or a already given a column matrix
             if (matrix.getOrientation() == VectorOrientation.ROW_MAJOR){
-                OutputWriter.write("Matrix Should Be Column Major", "out.json");
                 throw new IllegalArgumentException("Matrix Should Be Column Major");
             }
 
-
             else if (matrix.getOrientation() != VectorOrientation.ROW_MAJOR && matrix.getOrientation() != VectorOrientation.COLUMN_MAJOR) {
-                OutputWriter.write("Matrix Does Not Have Orientation", "out.json");
-
+                throw new IllegalArgumentException("Matrix Does Not Have Orientation");
             }
 
             acquireAllVectorReadLocks(matrix);
             try {
                 handleVecMatMulWithColumnMatrix(matrix);
-            } finally {
+            }
+            catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
+            }
+            finally {
                 releaseAllVectorReadLocks(matrix);
             }
 
         }
         catch (Exception e) {
-            try {
-                OutputWriter.write(e.getMessage(),"out.json");
-                throw new RuntimeException(e);
-            }
-            catch(IOException ignored){
-
-            }
+                throw new RuntimeException(e.getMessage());
         }
         finally {
             this.writeUnlock();
@@ -246,6 +241,7 @@ public class SharedVector {
 
         ///Here We know we get a column displayed matrix
         try {
+
             if (this.length() != matrix.get(0).length())
                 throw new IllegalArgumentException("Matrix Length Mismatch");
            double[] vector = new double[matrix.length()];
@@ -255,28 +251,17 @@ public class SharedVector {
            this.vector = vector;
         }
         catch (Exception e) {
-            try {
-                OutputWriter.write(e.getMessage(),"out.json");
-                System.exit(1);
-            }
-            catch (IOException ioe) {
-                System.exit(1);
-                throw new RuntimeException(e);
-
-            }
-            throw e;
+                throw new RuntimeException(e.getMessage());
         }
     }
 
     private double UnsafeDot(SharedVector other){
         try {
             if (this.vector.length != other.vector.length) {
-                OutputWriter.write("Vectors Length Mismatch", "out.json");
-
+                throw new IllegalArgumentException("Vectors Length Mismatch");
             }
             if (this.orientation == other.orientation) {
-                OutputWriter.write("Vectors Orientation Mismatch", "out.json");
-
+                throw new IllegalArgumentException("Matrix Should Be Column Major");
             }
 
             double sum = 0;
@@ -285,9 +270,8 @@ public class SharedVector {
 
             return sum;
         }
-        catch (IOException e) {
-
-            throw new RuntimeException(e);
+        catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
         }
     }
 }

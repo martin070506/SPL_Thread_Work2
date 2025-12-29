@@ -97,7 +97,6 @@ public class SharedMatrix {
         /// return orientation
         if (!isValidVector())
             try {
-                OutputWriter.write("Cannot Get orienation of an empty Matrix", "out.json");
                 throw  new IllegalStateException("Cannot Get orienation of an empty Matrix");
             } catch (Exception e) {
                 throw new IllegalStateException(e.getMessage());
