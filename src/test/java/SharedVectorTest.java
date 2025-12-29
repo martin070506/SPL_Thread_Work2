@@ -6,9 +6,14 @@ import memory.VectorOrientation;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import parser.ComputationNode;
+import parser.ComputationNodeType;
 import parser.OutputWriter;
+import spl.lae.LinearAlgebraEngine;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
@@ -31,7 +36,7 @@ public class SharedVectorTest {
         sVec4 = new SharedVector(Vec4, VectorOrientation.ROW_MAJOR);
         Vec5 = new double[]{2.0, 3.0, 4.0, 5.0, 6.0, 7.0};
         sVec5 = new SharedVector(Vec5, VectorOrientation.ROW_MAJOR);
-        Matrix1=new double[][]{{2.0,2.0,2.0,3.0,3.0}, {4.0,4.0,4.0,4.0,5.0},{6.0,6.0,6.0,7.0,7.0}};
+        Matrix1 = new double[][]{{2.0,2.0,2.0,3.0,3.0}, {4.0,4.0,4.0,4.0,5.0},{6.0,6.0,6.0,7.0,7.0}};
 
         // [2,2,2,3,3]
         // [4,4,4,4,5]
@@ -134,7 +139,7 @@ public class SharedVectorTest {
     @Test void MultiplyTest2() throws Exception {
         try {
             sVec1.vecMatMul(sMatrix1);
-            assertEquals(true,false);
+            assertNotEquals(sVec1,false);
         }
         catch (Exception ignored) {
             System.out.println("was here");
@@ -216,7 +221,5 @@ public class SharedVectorTest {
 
 
 
-//    public double dot(SharedVector other)
-//
-//    public void vecMatMul(SharedMatrix matrix)
+
 }

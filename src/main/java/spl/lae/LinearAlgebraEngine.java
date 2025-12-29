@@ -50,28 +50,23 @@ public class LinearAlgebraEngine {
             if (resolvablePointer.getChildren().size() == 2)
                 rightMatrix = new SharedMatrix(resolvablePointer.getChildren().get(1).getMatrix());
 
-            switch (resolvablePointer.getNodeType())
-            {
-                case ADD:
-                {
+            switch (resolvablePointer.getNodeType()) {
+                case ADD: {
                     System.out.println("ADD");
                     tasks = createAddTasks();
                     break;
                 }
-                case MULTIPLY:
-                {
+                case MULTIPLY: {
                     System.out.println("MULTIPLY");
                     tasks = createMultiplyTasks();
                     break;
                 }
-                case NEGATE:
-                {
+                case NEGATE: {
                     System.out.println("NEGATE");
                     tasks = createNegateTasks();
                     break;
                 }
-                case TRANSPOSE:
-                {
+                case TRANSPOSE: {
                     System.out.println("TRANSPOSE");
                     tasks = createTransposeTasks();
                     break;
@@ -81,12 +76,16 @@ public class LinearAlgebraEngine {
             executor.submitAll(tasks);
             resolvablePointer.resolve(leftMatrix.readRowMajor());
         }
+
+        System.out.println(getWorkerReport());
         executor.shutdown();
     }
 
-
     public List<Runnable> createAddTasks() {
         /// return tasks that perform row-wise addition
+
+        if (leftMatrix.getOrientation() != rightMatrix.getOrientation())
+            transpose(rightMatrix);
 
         List<Runnable> tasks = new ArrayList<>(leftMatrix.length());
         for (int i = 0; i < leftMatrix.length(); i++) {
@@ -105,6 +104,7 @@ public class LinearAlgebraEngine {
         // TODO we most likely get matrices as ROW-MAJOR , but our multiply only works on columns, and a simple transpose doesnt help
         // TODO so we need to somehow lad th matrix to columns, maybe by load column major or something
         // TODO hust get the matrix and load column major , thats it
+
         if (leftMatrix.getOrientation() != VectorOrientation.ROW_MAJOR)
             transpose(leftMatrix);
         if (leftMatrix.getOrientation() != VectorOrientation.COLUMN_MAJOR)
@@ -138,13 +138,10 @@ public class LinearAlgebraEngine {
     public List<Runnable> createTransposeTasks() {
         /// return tasks that transpose rows
 
-        List<Runnable> tasks = new ArrayList<>(leftMatrix.length());
-        for (int i = 0; i < leftMatrix.length(); i++) {
-            int finalI = i;
-            tasks.add(() -> {
-                leftMatrix.get(finalI).transpose();
-            });
-        }
+        List<Runnable> tasks = new ArrayList<>(1);
+        tasks.add(() -> {
+            transpose(leftMatrix);
+        });
 
         return tasks;
     }
@@ -153,5 +150,12 @@ public class LinearAlgebraEngine {
         /// return summary of worker activity
 
         return executor.getWorkerReport();
+    }
+
+    private void transpose(SharedMatrix Matrix) {
+        if (Matrix.getOrientation() == VectorOrientation.ROW_MAJOR)
+            Matrix.loadColumnMajor(Matrix.readRowMajor());
+        else
+            Matrix.loadRowMajor(Matrix.readRowMajor());
     }
 }

@@ -28,13 +28,19 @@ public class TiredExecutor {
 
     public synchronized void submit(Runnable task) {
         ///
+        if(task==null){
+            throw new NullPointerException();
+        }
         while (idleMinHeap.isEmpty()) {
             try {
                 wait();
             } catch (InterruptedException ignored) {}
         }
-
+        for(TiredThread worker : idleMinHeap) {
+            System.out.println(worker.getFatigue() + "ID: " +worker.getWorkerId());
+        }
         TiredThread worker = idleMinHeap.poll();
+        System.out.println("Chose: " + "ID: " + worker.getWorkerId());
 
         if (worker != null) {
             Runnable wrapped = () -> {
@@ -64,6 +70,7 @@ public class TiredExecutor {
             try {
                 wait();
             } catch (InterruptedException ignored) {}
+
     }
 
     public void shutdown() {
@@ -77,6 +84,7 @@ public class TiredExecutor {
                 worker.join();
             } catch (InterruptedException ignored) {}
 
+        System.out.printf("Fairness : %.3e\n%n", getFairness());
     }
 
     public synchronized String getWorkerReport() {
@@ -84,11 +92,24 @@ public class TiredExecutor {
 
         StringBuilder sb = new StringBuilder();
 
-        for (TiredThread t : workers) {
-            sb.append(String.format("Worker %d: Used=%d, Idle=%d, Fatigue=%.2f\n",
-                    t.getWorkerId(), t.getTimeUsed(), t.getTimeIdle(), t.getFatigue()));
-        }
+        for (TiredThread t : workers)
+            sb.append(String.format("Worker %d: Used = %dm(s), Idle = %d, Fatigue = %.2f\n",
+                    t.getWorkerId(), t.getTimeUsed() / 1000000, t.getTimeIdle(), t.getFatigue()));
 
         return sb.toString();
+    }
+
+    private double getFairness() {
+        double sum = 0;
+        for (TiredThread worker : workers)
+            sum += worker.getFatigue();
+
+        double avg = sum / workers.length;
+        sum = 0;
+
+        for (TiredThread worker : workers)
+            sum += (worker.getFatigue() - avg) * (worker.getFatigue() - avg);
+
+        return sum;
     }
 }

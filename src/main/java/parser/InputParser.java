@@ -17,7 +17,7 @@ public class InputParser {
         try {
             File inputFile = new File(inputPath);
             JsonNode rootJsonNode = mapper.readTree(inputFile);
-            ComputationNode root = parseJsonNode(rootJsonNode);
+            ComputationNode root = this.parseJsonNode(rootJsonNode);
             return root;
         } catch (IOException e) {
             throw new ParseException("Failed to read the input JSON file: " + e.getMessage(), 0);

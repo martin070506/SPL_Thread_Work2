@@ -17,7 +17,7 @@ class LinearAlgebraEngineTest {
 
     @BeforeEach
     void setUp() {
-        // אתחול המנוע לפני כל טסט
+
         engine = new LinearAlgebraEngine(numThreads);
     }
 

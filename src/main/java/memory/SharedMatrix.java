@@ -1,5 +1,7 @@
 package memory;
 
+import parser.OutputWriter;
+
 import java.util.Arrays;
 
 public class SharedMatrix {
@@ -60,13 +62,20 @@ public class SharedMatrix {
 
     public double[][] readRowMajor()  {
         /// return matrix contents as a row-major double[][]
+        acquireAllVectorReadLocks(vectors);
+        try {
+            if (!isValidVector())
+                return new double[0][0];
+            double[][] matrix = new double[vectors.length][vectors[0].length()];
+            for (int i = 0; i < vectors.length; i++)
+                for (int j = 0; j < vectors[0].length(); j++)
+                    matrix[i][j] = vectors[i].get(j);
+            return matrix;
+        }
+        finally {
+            releaseAllVectorReadLocks(vectors);
+        }
 
-        double[][] matrix = new double[vectors.length][];
-        for (int i = 0; i < vectors.length; i++)
-            for (int j = 0; j < vectors.length; j++)
-                matrix[i][j] = vectors[i].get(j);
-
-        return matrix;
     }
 
     public SharedVector get(int index) {
@@ -82,10 +91,17 @@ public class SharedMatrix {
         return vectors.length;
     }
 
+
+
     public VectorOrientation getOrientation() {
         /// return orientation
         if (!isValidVector())
-            throw new IllegalStateException("Cannot Get orienation of an empty Matrix");
+            try {
+                OutputWriter.write("Cannot Get orienation of an empty Matrix", "out.json");
+                throw  new IllegalStateException("Cannot Get orienation of an empty Matrix");
+            } catch (Exception e) {
+                throw new IllegalStateException(e.getMessage());
+            }
         return vectors[0].getOrientation();
     }
 
@@ -115,5 +131,10 @@ public class SharedMatrix {
 
         for (SharedVector vec : vecs)
             vec.writeUnlock();
+    }
+
+    private boolean isValidVector() {
+
+        return (vectors != null && vectors.length != 0 && vectors[0] != null);
     }
 }

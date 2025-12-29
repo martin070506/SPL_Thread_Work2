@@ -81,10 +81,10 @@ public class TiredThread extends Thread implements Comparable<TiredThread> {
 
                 timeIdle.addAndGet(System.nanoTime() - idleStartTime.get());
 
-                if (task == POISON_PILL){
-                    interrupt();
+                if (task == POISON_PILL)
                     alive.set(false);
-                }
+                    // interrupt();
+                // INFO i commented because we made alive false but it still works without interrupting, because alive is false so the thread will just exit the run
 
 
                 busy.set(true);
@@ -100,7 +100,7 @@ public class TiredThread extends Thread implements Comparable<TiredThread> {
                 }
 
             } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
+                System.exit(1);
                 break;
             }
         }
