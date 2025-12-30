@@ -20,7 +20,7 @@ public class TiredThread extends Thread implements Comparable<TiredThread> {
 
     private final AtomicBoolean busy = new AtomicBoolean(false); // Indicates if the worker is currently executing a task
 
-    private final AtomicLong timeUsed = new AtomicLong(0); // Total time spent executing tasks
+    private  final  AtomicLong timeUsed = new AtomicLong(0); // Total time spent executing tasks
     private final AtomicLong timeIdle = new AtomicLong(0); // Total time spent idle
     private final AtomicLong idleStartTime = new AtomicLong(0); // Timestamp when the worker became idle
 

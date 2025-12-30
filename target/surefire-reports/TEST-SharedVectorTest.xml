@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="SharedVectorTest" time="0.044" tests="13" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="SharedVectorTest" time="0.037" tests="13" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="24"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -16,7 +16,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-24\bin"/>
-    <property name="sun.java.command" value="C:\Users\malin\AppData\Local\Temp\surefire9664268043871953578\surefirebooter-20251230143808427_3.jar C:\Users\malin\AppData\Local\Temp\surefire9664268043871953578 2025-12-30T14-38-08_276-jvmRun1 surefire-20251230143808427_1tmp surefire_0-20251230143808427_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\malin\AppData\Local\Temp\surefire10120253609368698407\surefirebooter-20251230160301962_3.jar C:\Users\malin\AppData\Local\Temp\surefire10120253609368698407 2025-12-30T16-03-01_782-jvmRun1 surefire-20251230160301962_1tmp surefire_0-20251230160301962_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\malin\OneDrive\Desktop\Skeleton\target\test-classes;C:\Users\malin\OneDrive\Desktop\Skeleton\target\classes;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar;C:\Users\malin\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\malin\.m2\repository\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar;C:\Users\malin\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.2\junit-jupiter-engine-5.10.2.jar;C:\Users\malin\.m2\repository\org\junit\platform\junit-platform-engine\1.10.2\junit-platform-engine-1.10.2.jar;C:\Users\malin\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.17.1\jackson-databind-2.17.1.jar;C:\Users\malin\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.17.1\jackson-annotations-2.17.1.jar;C:\Users\malin\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.17.1\jackson-core-2.17.1.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\malin\AppData\Local\Temp\surefire9664268043871953578\surefirebooter-20251230143808427_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\malin\AppData\Local\Temp\surefire10120253609368698407\surefirebooter-20251230160301962_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="24.0.1+9-30"/>
@@ -59,12 +59,12 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="68.0"/>
   </properties>
-  <testcase name="VectorDotTest1" classname="SharedVectorTest" time="0.003"/>
-  <testcase name="VectorDotTest2" classname="SharedVectorTest" time="0.002"/>
+  <testcase name="VectorDotTest1" classname="SharedVectorTest" time="0.002"/>
+  <testcase name="VectorDotTest2" classname="SharedVectorTest" time="0.001"/>
   <testcase name="VectorNegateTest" classname="SharedVectorTest" time="0.002"/>
   <testcase name="VectorAdditionTest1" classname="SharedVectorTest" time="0.002"/>
-  <testcase name="VectorLengthTest" classname="SharedVectorTest" time="0.001"/>
-  <testcase name="vectorGetTest1" classname="SharedVectorTest" time="0.003"/>
+  <testcase name="VectorLengthTest" classname="SharedVectorTest" time="0.002"/>
+  <testcase name="vectorGetTest1" classname="SharedVectorTest" time="0.001"/>
   <testcase name="vectorGetTest2" classname="SharedVectorTest" time="0.002"/>
   <testcase name="MultiplyTest1" classname="SharedVectorTest" time="0.002">
     <system-out><![CDATA[Expected: 39.0 Got: 39.0
@@ -72,11 +72,11 @@ Expected: 65.0 Got: 65.0
 Expected: 99.0 Got: 99.0
 ]]></system-out>
   </testcase>
-  <testcase name="MultiplyTest2" classname="SharedVectorTest" time="0.002">
+  <testcase name="MultiplyTest2" classname="SharedVectorTest" time="0.001">
     <system-out><![CDATA[was here
 ]]></system-out>
   </testcase>
-  <testcase name="MultiplyTest3" classname="SharedVectorTest" time="0.002">
+  <testcase name="MultiplyTest3" classname="SharedVectorTest" time="0.0">
     <system-out><![CDATA[Expected: 46.0 Got: 46.0
 Expected: 46.0 Got: 46.0
 Expected: 46.0 Got: 46.0
@@ -84,7 +84,7 @@ Expected: 55.0 Got: 55.0
 Expected: 57.0 Got: 57.0
 ]]></system-out>
   </testcase>
-  <testcase name="VectorOrientationTest" classname="SharedVectorTest" time="0.003"/>
+  <testcase name="VectorOrientationTest" classname="SharedVectorTest" time="0.002"/>
   <testcase name="LengthAfterMultiplicationTest" classname="SharedVectorTest" time="0.001"/>
   <testcase name="VectorTransposeTest" classname="SharedVectorTest" time="0.001"/>
 </testsuite>

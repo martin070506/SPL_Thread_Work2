@@ -11,8 +11,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class LinearAlgebraEngine {
 
-    private SharedMatrix leftMatrix = new SharedMatrix();
-    private SharedMatrix rightMatrix = new SharedMatrix();
+    private volatile SharedMatrix leftMatrix = new SharedMatrix();
+    private volatile SharedMatrix rightMatrix = new SharedMatrix();
     private TiredExecutor executor;
 
     public LinearAlgebraEngine(int numThreads) {
