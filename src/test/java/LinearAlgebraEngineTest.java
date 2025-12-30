@@ -1,11 +1,10 @@
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import parser.ComputationNode;
 import parser.ComputationNodeType;
-import memory.SharedMatrix;
 import spl.lae.LinearAlgebraEngine;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,44 +16,164 @@ class LinearAlgebraEngineTest {
 
     @BeforeEach
     void setUp() {
-
         engine = new LinearAlgebraEngine(numThreads);
     }
 
     @Test
-    void testInitialization() {
-        assertNotNull(engine, "Engine should be initialized successfully");
-        assertNotNull(engine.getWorkerReport());
+    void testSimpleAddition() {
+        double[][] dataA = {{1.0, 2.0}, {3.0, 4.0}};
+        double[][] dataB = {{5.0, 6.0}, {7.0, 8.0}};
+        double[][] expected = {{6.0, 8.0}, {10.0, 12.0}};
+
+        ComputationNode resultNode = runOperation(ComputationNodeType.ADD, dataA, dataB);
+
+        assertNotNull(resultNode.getMatrix());
+        assertMatrixEquals(expected, resultNode.getMatrix());
     }
 
     @Test
-    void testSimpleAddition() {
-        // 1. Arrange: הכנת הנתונים (מטריצות בגודל 2x2)
-        // A = [[1, 2], [3, 4]]
-        double[][] dataA = {{1.0, 2.0}, {3.0, 4.0}};
-        SharedMatrix matrixA = new SharedMatrix(dataA);
+    void testMatrixMultiplication() {
+        double[][] dataA = {
+                {1.0, 2.0, 3.0},
+                {4.0, 5.0, 6.0}
+        };
+        double[][] dataB = {
+                {7.0, 8.0},
+                {9.0, 1.0},
+                {2.0, 3.0}
+        };
 
-        // B = [[5, 6], [7, 8]]
-        double[][] dataB = {{5.0, 6.0}, {7.0, 8.0}};
-        SharedMatrix matrixB = new SharedMatrix(dataB);
+        double[][] expected = {
+                {31.0, 19.0},
+                {85.0, 55.0}
+        };
+
+        ComputationNode resultNode = runOperation(ComputationNodeType.MULTIPLY, dataA, dataB);
+        assertMatrixEquals(expected, resultNode.getMatrix());
+    }
+
+    @Test
+    void testTranspose() {
+        double[][] data = {
+                {1.0, 2.0, 3.0},
+                {4.0, 5.0, 6.0}
+        }; // 2x3
+
+        double[][] expected = {
+                {1.0, 4.0},
+                {2.0, 5.0},
+                {3.0, 6.0}
+        }; // 3x2
 
         LinkedList<ComputationNode> nodeList = new LinkedList<>();
-        nodeList.add(new ComputationNode(dataA));
-        nodeList.add(new ComputationNode(dataB));
-        ComputationNode rootAdd = new ComputationNode(ComputationNodeType.ADD, nodeList);
+        nodeList.add(new ComputationNode(data));
+        ComputationNode root = new ComputationNode(ComputationNodeType.TRANSPOSE, nodeList);
 
-        // 2. Act: הרצת המנוע
-        ComputationNode resultNode = engine.run(rootAdd);
+        ComputationNode resultNode = engine.run(root);
+        assertMatrixEquals(expected, resultNode.getMatrix());
+    }
 
-        // 3. Assert: בדיקת התוצאה הצפויה
-        // Expected = [[6, 8], [10, 12]]
-        assertNotNull(resultNode.getMatrix(), "Result matrix should not be null");
-        double[][] resultData = resultNode.getMatrix(); // הנחה שיש מתודה כזו
+    @Test
+    void testNegate() {
+        double[][] data = {
+                {1.0, -2.0},
+                {0.0, 5.5}
+        };
+        double[][] expected = {
+                {-1.0, 2.0},
+                {0.0, -5.5}
+        };
 
-        assertEquals(6.0, resultData[0][0], 0.001);
-        assertEquals(8.0, resultData[0][1], 0.001);
-        assertEquals(10.0, resultData[1][0], 0.001);
-        assertEquals(12.0, resultData[1][1], 0.001);
+        LinkedList<ComputationNode> nodeList = new LinkedList<>();
+        nodeList.add(new ComputationNode(data));
+        ComputationNode root = new ComputationNode(ComputationNodeType.NEGATE, nodeList);
+
+        ComputationNode resultNode = engine.run(root);
+        assertMatrixEquals(expected, resultNode.getMatrix());
+    }
+
+    @Test
+    void testComplexTreeExecution() {
+        double[][] A = {{1, 0}, {0, 1}};
+        double[][] B = {{1, 2}, {3, 4}};
+        double[][] C = {{2, 0}, {0, 2}};
+        double[][] expected = {{4.0, 4.0}, {6.0, 10.0}};
+
+        ComputationNode nodeA = new ComputationNode(A);
+        ComputationNode nodeB = new ComputationNode(B);
+        ComputationNode nodeC = new ComputationNode(C);
+
+        LinkedList<ComputationNode> addChildren = new LinkedList<>();
+        addChildren.add(nodeA);
+        addChildren.add(nodeB);
+        ComputationNode addNode = new ComputationNode(ComputationNodeType.ADD, addChildren);
+
+        LinkedList<ComputationNode> multChildren = new LinkedList<>();
+        multChildren.add(addNode);
+        multChildren.add(nodeC);
+        ComputationNode rootMult = new ComputationNode(ComputationNodeType.MULTIPLY, multChildren);
+
+        ComputationNode result = engine.run(rootMult);
+        assertMatrixEquals(expected, result.getMatrix());
+    }
+
+    @Test
+    void testAssociativeAddition() {
+        double[][] A = {{1}};
+        double[][] B = {{2}};
+        double[][] C = {{3}};
+        double[][] expected = {{6}};
+
+        LinkedList<ComputationNode> children = new LinkedList<>();
+        children.add(new ComputationNode(A));
+        children.add(new ComputationNode(B));
+        children.add(new ComputationNode(C));
+
+        ComputationNode rootAdd = new ComputationNode(ComputationNodeType.ADD, children);
+
+        ComputationNode result = engine.run(rootAdd);
+        assertMatrixEquals(expected, result.getMatrix());
+    }
+
+    @Test
+    void testDimensionMismatchMultiply() {
+        double[][] A = {{1, 2}};
+        double[][] B = {{1, 2}};
+
+        assertThrows(RuntimeException.class, () -> {
+            runOperation(ComputationNodeType.MULTIPLY, A, B);
+        });
+    }
+
+    @Test
+    void testDimensionMismatchAdd() {
+        double[][] A = {{1, 2}};
+        double[][] B = {{1, 2, 3}};
+
+        assertThrows(Exception.class, () -> {
+            runOperation(ComputationNodeType.ADD, A, B);
+        });
+    }
+
+    private ComputationNode runOperation(ComputationNodeType type, double[][] matA, double[][] matB) {
+
+        LinkedList<ComputationNode> nodeList = new LinkedList<>();
+        nodeList.add(new ComputationNode(matA));
+        nodeList.add(new ComputationNode(matB));
+        ComputationNode root = new ComputationNode(type, nodeList);
+
+        return engine.run(root);
+    }
+
+    private void assertMatrixEquals(double[][] expected, double[][] actual) {
+
+        assertEquals(expected.length, actual.length, "Rows mismatch");
+        assertEquals(expected[0].length, actual[0].length, "Cols mismatch");
+
+        for (int i = 0; i < expected.length; i++)
+            for (int j = 0; j < expected[0].length; j++)
+                assertEquals(expected[i][j], actual[i][j], 0.001,
+                        "Mismatch at [" + i + "][" + j + "]");
+
     }
 }
-

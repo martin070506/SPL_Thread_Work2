@@ -476,11 +476,10 @@ public class SharedMatrixTest {
     public void testLargeMatrix() {
         System.out.println("=== Testing Large Matrix (10x10) ===");
         double[][] large = new double[10][10];
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+
+        for (int i = 0; i < 10; i++)
+            for (int j = 0; j < 10; j++)
                 large[i][j] = i * 10 + j;
-            }
-        }
 
         System.out.println("Loading 10x10 matrix...");
         sharedMatrix1.loadRowMajor(large);
@@ -501,13 +500,13 @@ public class SharedMatrixTest {
         System.out.println("Matrix length: " + sharedMatrix1.length());
 
         System.out.println("Attempting to get index 5 (should throw exception)...");
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+        assertThrows(IndexOutOfBoundsException.class, () -> {
             sharedMatrix1.get(5);
         });
         System.out.println("✓ Exception thrown for index 5");
 
         System.out.println("Attempting to get index -1 (should throw exception)...");
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+        assertThrows(IndexOutOfBoundsException.class, () -> {
             sharedMatrix1.get(-1);
         });
         System.out.println("✓ Exception thrown for index -1");

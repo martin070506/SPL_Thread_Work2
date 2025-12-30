@@ -7,6 +7,7 @@ import scheduling.*;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 public class LinearAlgebraEngine {
 
@@ -21,11 +22,14 @@ public class LinearAlgebraEngine {
     }
 
     public ComputationNode run(ComputationNode computationRoot) {
-        /// resolve computation tree step by step until final matrix is produced
+        /// resolve the computation tree step by step until the final matrix is produced
 
         try {
             loadAndCompute(computationRoot);
-        } catch (Exception ignored) {}
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
         return computationRoot;
     }
 
@@ -33,10 +37,13 @@ public class LinearAlgebraEngine {
         /// load operand matrices
         /// create compute tasks & submit tasks to executor
 
-        while (node != null && node.findResolvable() != null) {
+        // TODO: Check if The new Variable is Legit
+        AtomicReference<Throwable> taskError = new java.util.concurrent.atomic.AtomicReference<>(null);
 
+        while (node != null && node.findResolvable() != null) {
             List<Runnable> tasks = List.of();
             ComputationNode resolvablePointer = node.findResolvable(); // A+B+C+D
+
             while (resolvablePointer.getChildren().size() > 2) {
                 resolvablePointer.associativeNesting();
                 resolvablePointer = resolvablePointer.findResolvable();
@@ -86,6 +93,8 @@ public class LinearAlgebraEngine {
 
         if (leftMatrix.getOrientation() != rightMatrix.getOrientation())
             transpose(rightMatrix);
+        if (leftMatrix.length() != rightMatrix.length())
+            throw new IllegalArgumentException("Matrix Length Mismatch");
 
         List<Runnable> tasks = new ArrayList<>(leftMatrix.length());
         for (int i = 0; i < leftMatrix.length(); i++) {
@@ -104,18 +113,14 @@ public class LinearAlgebraEngine {
         // TODO we most likely get matrices as ROW-MAJOR , but our multiply only works on columns, and a simple transpose doesnt help
         // TODO so we need to somehow lad th matrix to columns, maybe by load column major or something
         // TODO hust get the matrix and load column major , thats it
-        try{
+        try {
             if (leftMatrix.getOrientation() != VectorOrientation.ROW_MAJOR)
                 transpose(leftMatrix);
             if (leftMatrix.getOrientation() != VectorOrientation.COLUMN_MAJOR)
                 transpose(rightMatrix);
-            if(leftMatrix.get(0).length()!=rightMatrix.length()){
+            if (leftMatrix.get(0).length() != rightMatrix.get(0).length())
                 throw new IllegalArgumentException("Matrix Length Mismatch");
-
-            }
-
-        }catch(Exception e){
-            System.out.println("reached HEre");
+        } catch (Exception e) {
             executor.shutdown();
             throw new RuntimeException(e.getMessage());
         }
@@ -164,6 +169,7 @@ public class LinearAlgebraEngine {
     }
 
     private void transpose(SharedMatrix Matrix) {
+
         if (Matrix.getOrientation() == VectorOrientation.ROW_MAJOR)
             Matrix.loadColumnMajor(Matrix.readRowMajor());
         else

@@ -28,17 +28,18 @@ public class TiredExecutor {
 
     public synchronized void submit(Runnable task) {
         ///
-        if(task==null){
+
+        if (task == null)
             throw new NullPointerException();
-        }
-        while (idleMinHeap.isEmpty()) {
+
+        while (idleMinHeap.isEmpty())
             try {
                 wait();
             } catch (InterruptedException ignored) {}
-        }
-        for(TiredThread worker : idleMinHeap) {
+
+        for (TiredThread worker : idleMinHeap)
             System.out.println(worker.getFatigue() + "ID: " +worker.getWorkerId());
-        }
+
         TiredThread worker = idleMinHeap.poll();
         System.out.println("Chose: " + "ID: " + worker.getWorkerId());
 
@@ -70,7 +71,6 @@ public class TiredExecutor {
             try {
                 wait();
             } catch (InterruptedException ignored) {}
-
     }
 
     public void shutdown() {
