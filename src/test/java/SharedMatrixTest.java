@@ -1,16 +1,9 @@
 import memory.SharedMatrix;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import memory.SharedMatrix;
 import memory.SharedVector;
 import memory.VectorOrientation;
-import org.junit.jupiter.api.Test;
-import parser.OutputWriter;
-
 import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SharedMatrixTest {
@@ -137,7 +130,7 @@ public class SharedMatrixTest {
     @Test public void readRowMajor(){
         try{
             sharedMatrix1.loadRowMajor(matrix1);
-            assertEquals(sharedMatrix1.readRowMajor(),matrix1);
+            assertArrayEquals(sharedMatrix1.readRowMajor(),matrix1);
             sharedMatrix1.loadColumnMajor(matrix1);
             assertNotEquals(sharedMatrix1.readRowMajor(),matrix1);
         }

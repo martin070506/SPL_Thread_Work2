@@ -93,8 +93,8 @@ public class TiredExecutor {
         StringBuilder sb = new StringBuilder();
 
         for (TiredThread t : workers)
-            sb.append(String.format("Worker %d: Used = %dm(s), Idle = %d, Fatigue = %.2f\n",
-                    t.getWorkerId(), t.getTimeUsed() / 1000000, t.getTimeIdle(), t.getFatigue()));
+            sb.append(String.format("Worker %d: Used = %d, Idle = %d, Fatigue = %.2f\n",
+                    t.getWorkerId(), t.getTimeUsed() , t.getTimeIdle(), t.getFatigue()));
 
         return sb.toString();
     }

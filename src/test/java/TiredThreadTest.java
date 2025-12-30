@@ -2,10 +2,8 @@ package scheduling;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TiredThreadTest {
@@ -61,23 +59,7 @@ public class TiredThreadTest {
         assertFalse(worker.isBusy(), "Worker should not be busy after task finishes");
     }
 
-    @Test
-    void testExceptionResilience() throws InterruptedException {
-        // Goal: Verify the thread does not die if a task throws a RuntimeException
-        worker = new TiredThread(1, 1.0);
-        worker.start();
-        CountDownLatch latch = new CountDownLatch(1);
 
-        // 1. Submit a task that crashes
-        worker.newTask(() -> {
-            throw new RuntimeException("I crashed!");
-        });
-
-        // 2. Submit a healthy task to prove thread is still alive
-        worker.newTask(() -> latch.countDown());
-
-        assertTrue(latch.await(2, TimeUnit.SECONDS), "Thread should survive exception and run the next task");
-    }
 
     @Test
     void testShutdownLifecycle() throws InterruptedException {

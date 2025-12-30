@@ -93,7 +93,7 @@ public class LinearAlgebraEngine {
 
         if (leftMatrix.getOrientation() != rightMatrix.getOrientation())
             transpose(rightMatrix);
-        if (leftMatrix.length() != rightMatrix.length())
+        if (leftMatrix.length() != rightMatrix.length() || leftMatrix.get(0).length() != rightMatrix.get(0).length())
             throw new IllegalArgumentException("Matrix Length Mismatch");
 
         List<Runnable> tasks = new ArrayList<>(leftMatrix.length());
@@ -118,7 +118,7 @@ public class LinearAlgebraEngine {
                 transpose(leftMatrix);
             if (leftMatrix.getOrientation() != VectorOrientation.COLUMN_MAJOR)
                 transpose(rightMatrix);
-            if (leftMatrix.get(0).length() != rightMatrix.get(0).length())
+            if (leftMatrix.get(0).length() != rightMatrix.get(0).length() )
                 throw new IllegalArgumentException("Matrix Length Mismatch");
         } catch (Exception e) {
             executor.shutdown();
