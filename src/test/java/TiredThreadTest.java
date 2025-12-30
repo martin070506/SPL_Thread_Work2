@@ -80,5 +80,74 @@ public class TiredThreadTest {
        assertThrows(Exception.class,()->worker.newTask(() -> System.out.println("Task 2")));
     }
 
+    @Test
+    void testExecutionAndBusyState() throws InterruptedException {
+        // Goal: Verify the thread actually picks up a task, sets busy=true, runs it, and resets busy=false.
 
+        worker = new TiredThread(1, 1.0);
+        worker.start();
+
+        // Latches to synchronize the test with the worker thread
+        CountDownLatch taskStarted = new CountDownLatch(1);
+        CountDownLatch allowTaskToFinish = new CountDownLatch(1);
+        CountDownLatch taskFinished = new CountDownLatch(1);
+
+        worker.newTask(() -> {
+            taskStarted.countDown(); // 1. Signal that we are running
+            try {
+                // 2. Wait here so the main test thread has time to check isBusy()
+                allowTaskToFinish.await();
+                // Simulate some "Work" time to update fatigue manually (since run() doesn't do it automatically)
+
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            taskFinished.countDown(); // 3. Signal completion
+        });
+
+        // Wait for the worker to pick up the task
+        assertTrue(taskStarted.await(1, TimeUnit.SECONDS), "Task should start execution");
+
+        // ASSERT: Worker should be busy while inside the task
+        assertTrue(worker.isBusy(), "Worker should be marked busy while running a task");
+
+        // Let the task finish
+        allowTaskToFinish.countDown();
+        assertTrue(taskFinished.await(1, TimeUnit.SECONDS), "Task should complete");
+
+        // ASSERT: Worker should not be busy after task finishes
+        // We use a small loop/sleep here because there is a tiny gap between task.run() returning and busy.set(false)
+        int retries = 0;
+        while (worker.isBusy() && retries < 10) {
+            Thread.sleep(10);
+            retries++;
+        }
+        assertFalse(worker.isBusy(), "Worker should be free after task finishes");
+    }
+
+    @Test
+    void testIdleTimeAccumulation() throws InterruptedException {
+        // Goal: Verify that the worker tracks how long it sits waiting for a task.
+
+        worker = new TiredThread(2, 1.0);
+        worker.start();
+
+        // 1. Wait for ~100ms with no task. The worker is "Idle" during this time.
+        long sleepTimeMs = 100;
+        Thread.sleep(sleepTimeMs);
+
+        // 2. Submit a quick task to force the worker to wake up and calculate the previous idle interval.
+        CountDownLatch latch = new CountDownLatch(1);
+        worker.newTask(latch::countDown);
+
+        assertTrue(latch.await(1, TimeUnit.SECONDS));
+
+        // 3. Verify Idle Time
+        long idleTimeNanos = worker.getTimeIdle();
+        long minExpectedNanos = TimeUnit.MILLISECONDS.toNanos(sleepTimeMs);
+
+        // We check that idle time is at least the sleep time (allowing for some OS scheduling jitter)
+        assertTrue(idleTimeNanos >= minExpectedNanos,
+                "Idle time (" + idleTimeNanos + ") should be >= waited time (" + minExpectedNanos + ")");
+    }
 }

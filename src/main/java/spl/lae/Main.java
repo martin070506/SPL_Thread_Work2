@@ -11,14 +11,15 @@ public class Main {
         String inputFilePath = args[1];
         String outputFilePath = args[2];
         try {
-
             LinearAlgebraEngine LAE = new LinearAlgebraEngine(threads);
             InputParser IP = new InputParser();
             ComputationNode computationNode = IP.parse(inputFilePath);
             ComputationNode Root = LAE.run(computationNode);
             OutputWriter.write(Root.getMatrix(), outputFilePath);
         } catch (Exception e){
+            System.out.println("Im Here");
             OutputWriter.write(e.getMessage(),outputFilePath);
+            System.exit(1);
         }
     }
 }

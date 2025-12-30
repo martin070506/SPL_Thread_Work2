@@ -27,7 +27,6 @@ public class TiredThread extends Thread implements Comparable<TiredThread> {
     public TiredThread(int id, double fatigueFactor) {
         this.id = id;
         this.fatigueFactor = fatigueFactor;
-        this.idleStartTime.set(System.nanoTime());
         setName(String.format("FF=%.2f", fatigueFactor));
     }
 
@@ -69,22 +68,26 @@ public class TiredThread extends Thread implements Comparable<TiredThread> {
      */
     public void shutdown() {
         ///
-        newTask(POISON_PILL);
+        try{
+            handoff.put(POISON_PILL);
+        }catch(InterruptedException e){
+            Thread.currentThread().interrupt();
+        }
     }
 
     @Override
     public void run() {
 
+        idleStartTime.set(System.nanoTime());
         while (alive.get()) {
             try {
                 Runnable task = handoff.take();
-
-                timeIdle.addAndGet(System.nanoTime() - idleStartTime.get());
-
                 if (task == POISON_PILL) {
                     alive.set(false);
                     return;
                 }
+                timeIdle.addAndGet(System.nanoTime() - idleStartTime.get());
+
                 busy.set(true);
 
                 try {

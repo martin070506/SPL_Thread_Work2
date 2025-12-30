@@ -5,6 +5,7 @@ import memory.*;
 import scheduling.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
@@ -55,7 +56,13 @@ public class LinearAlgebraEngine {
             rightMatrix = null;
 
             if (resolvablePointer.getChildren().size() == 2)
-                rightMatrix = new SharedMatrix(resolvablePointer.getChildren().get(1).getMatrix());
+                if (resolvablePointer.getNodeType() == ComputationNodeType.MULTIPLY) {
+                    rightMatrix = new SharedMatrix();
+                    rightMatrix.loadColumnMajor(resolvablePointer.getChildren().get(1).getMatrix());
+                }
+                else
+                    rightMatrix = new SharedMatrix(resolvablePointer.getChildren().get(1).getMatrix());
+
 
             switch (resolvablePointer.getNodeType()) {
                 case ADD: {
@@ -74,6 +81,7 @@ public class LinearAlgebraEngine {
                     break;
                 }
                 case TRANSPOSE: {
+
                     System.out.println("TRANSPOSE");
                     tasks = createTransposeTasks();
                     break;
@@ -92,7 +100,7 @@ public class LinearAlgebraEngine {
         /// return tasks that perform row-wise addition
 
         if (leftMatrix.getOrientation() != rightMatrix.getOrientation())
-            transpose(rightMatrix);
+            throw new IllegalArgumentException("Matrix Orientation Mismatch");
         if (leftMatrix.length() != rightMatrix.length() || leftMatrix.get(0).length() != rightMatrix.get(0).length())
             throw new IllegalArgumentException("Matrix Length Mismatch");
 
@@ -107,24 +115,23 @@ public class LinearAlgebraEngine {
         return tasks;
     }
 
-
     public List<Runnable> createMultiplyTasks() {
         /// return tasks that perform row × matrix multiplication
         // TODO we most likely get matrices as ROW-MAJOR , but our multiply only works on columns, and a simple transpose doesnt help
         // TODO so we need to somehow lad th matrix to columns, maybe by load column major or something
         // TODO hust get the matrix and load column major , thats it
+
         try {
             if (leftMatrix.getOrientation() != VectorOrientation.ROW_MAJOR)
-                transpose(leftMatrix);
-            if (leftMatrix.getOrientation() != VectorOrientation.COLUMN_MAJOR)
-                transpose(rightMatrix);
+                throw new IllegalArgumentException("Left Matrix Orientation Mismatch");
+            if (rightMatrix.getOrientation() != VectorOrientation.COLUMN_MAJOR)
+                throw new IllegalArgumentException("Right Matrix Orientation Mismatch");
             if (leftMatrix.get(0).length() != rightMatrix.get(0).length() )
                 throw new IllegalArgumentException("Matrix Length Mismatch");
         } catch (Exception e) {
             executor.shutdown();
             throw new RuntimeException(e.getMessage());
         }
-
 
         List<Runnable> tasks = new ArrayList<>(leftMatrix.length());
         for (int i = 0; i < leftMatrix.length(); i++) {
@@ -154,10 +161,13 @@ public class LinearAlgebraEngine {
     public List<Runnable> createTransposeTasks() {
         /// return tasks that transpose rows
 
-        List<Runnable> tasks = new ArrayList<>(1);
-        tasks.add(() -> {
-            transpose(leftMatrix);
-        });
+        List<Runnable> tasks = new ArrayList<>(leftMatrix.length());
+        for (int i = 0; i < leftMatrix.length(); i++) {
+            int finalI = i;
+            tasks.add(() -> {
+                leftMatrix.get(finalI).transpose();
+            });
+        }
 
         return tasks;
     }
@@ -166,13 +176,5 @@ public class LinearAlgebraEngine {
         /// return summary of worker activity
 
         return executor.getWorkerReport();
-    }
-
-    private void transpose(SharedMatrix Matrix) {
-
-        if (Matrix.getOrientation() == VectorOrientation.ROW_MAJOR)
-            Matrix.loadColumnMajor(Matrix.readRowMajor());
-        else
-            Matrix.loadRowMajor(Matrix.readRowMajor());
     }
 }

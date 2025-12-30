@@ -68,11 +68,19 @@ public class SharedMatrix {
         try {
             if (!isValidVector())
                 return new double[0][0];
+            double[][] matrix = null;
 
-            double[][] matrix = new double[vectors.length][vectors[0].length()];
-            for (int i = 0; i < vectors.length; i++)
-                for (int j = 0; j < vectors[0].length(); j++)
-                    matrix[i][j] = vectors[i].get(j);
+            if (vectors[0].getOrientation() == VectorOrientation.ROW_MAJOR) {
+                matrix = new double[vectors.length][vectors[0].length()];
+                for (int i = 0; i < vectors.length; i++)
+                    for (int j = 0; j < vectors[0].length(); j++)
+                        matrix[i][j] = vectors[i].get(j);
+            } else {
+                matrix = new double[vectors[0].length()][vectors.length];
+                for (int i = 0; i < vectors[0].length(); i++)
+                    for (int j = 0; j < vectors.length; j++)
+                        matrix[i][j] = vectors[j].get(i);
+            }
 
             return matrix;
         } finally {

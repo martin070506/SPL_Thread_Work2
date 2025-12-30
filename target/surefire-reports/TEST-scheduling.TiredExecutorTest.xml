@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="scheduling.TiredExecutorTest" time="0.556" tests="4" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="scheduling.TiredExecutorTest" time="0.535" tests="4" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="24"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -16,7 +16,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-24\bin"/>
-    <property name="sun.java.command" value="C:\Users\malin\AppData\Local\Temp\surefire10120253609368698407\surefirebooter-20251230160301962_3.jar C:\Users\malin\AppData\Local\Temp\surefire10120253609368698407 2025-12-30T16-03-01_782-jvmRun1 surefire-20251230160301962_1tmp surefire_0-20251230160301962_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\malin\AppData\Local\Temp\surefire16953839626677172537\surefirebooter-20251230221632206_3.jar C:\Users\malin\AppData\Local\Temp\surefire16953839626677172537 2025-12-30T22-16-32_089-jvmRun1 surefire-20251230221632206_1tmp surefire_0-20251230221632206_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\malin\OneDrive\Desktop\Skeleton\target\test-classes;C:\Users\malin\OneDrive\Desktop\Skeleton\target\classes;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar;C:\Users\malin\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\malin\.m2\repository\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar;C:\Users\malin\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.2\junit-jupiter-engine-5.10.2.jar;C:\Users\malin\.m2\repository\org\junit\platform\junit-platform-engine\1.10.2\junit-platform-engine-1.10.2.jar;C:\Users\malin\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.17.1\jackson-databind-2.17.1.jar;C:\Users\malin\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.17.1\jackson-annotations-2.17.1.jar;C:\Users\malin\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.17.1\jackson-core-2.17.1.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\malin\AppData\Local\Temp\surefire10120253609368698407\surefirebooter-20251230160301962_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\malin\AppData\Local\Temp\surefire16953839626677172537\surefirebooter-20251230221632206_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="24.0.1+9-30"/>
@@ -64,7 +64,7 @@
 
 ]]></system-out>
   </testcase>
-  <testcase name="testSubmitRunsAllTasks" classname="scheduling.TiredExecutorTest" time="0.011">
+  <testcase name="testSubmitRunsAllTasks" classname="scheduling.TiredExecutorTest" time="0.005">
     <system-out><![CDATA[0.0ID: 0
 0.0ID: 1
 0.0ID: 2
@@ -74,35 +74,42 @@ Chose: ID: 0
 Chose: ID: 2
 0.0ID: 1
 Chose: ID: 1
-12775.333581563222ID: 0
+2547.337710965544ID: 2
+9643.539123850163ID: 0
+3046.015762430958ID: 1
+Chose: ID: 2
+3046.015762430958ID: 1
+9643.539123850163ID: 0
+Chose: ID: 1
+9643.539123850163ID: 0
 Chose: ID: 0
-14138.0358302633ID: 0
+5094.675421931088ID: 2
+11013.035804160247ID: 0
+5381.294513628026ID: 1
+Chose: ID: 2
+5381.294513628026ID: 1
+11013.035804160247ID: 0
+Chose: ID: 1
+11013.035804160247ID: 0
 Chose: ID: 0
-16182.089203313415ID: 0
-Chose: ID: 0
-3954.5671449711485ID: 1
+7411.971688581998ID: 1
+12154.283037751982ID: 0
+7540.11962445801ID: 2
 Chose: ID: 1
-7143.7341973672355ID: 1
-Chose: ID: 1
-10205.33456766748ID: 1
-Chose: ID: 1
-11736.134752817601ID: 1
-18651.987029082306ID: 0
-Chose: ID: 1
-Fairness : 1.426e+08
+Fairness : 1.065e+07
 
 ]]></system-out>
   </testcase>
-  <testcase name="testSubmitAllBlocksUntilCompletion" classname="scheduling.TiredExecutorTest" time="0.515">
+  <testcase name="testSubmitAllBlocksUntilCompletion" classname="scheduling.TiredExecutorTest" time="0.512">
     <system-out><![CDATA[0.0ID: 0
 0.0ID: 1
 0.0ID: 2
 Chose: ID: 0
-Fairness : 3.115e+17
+Fairness : 6.848e+16
 
 ]]></system-out>
   </testcase>
-  <testcase name="testWorkerReportGeneration" classname="scheduling.TiredExecutorTest" time="0.014">
+  <testcase name="testWorkerReportGeneration" classname="scheduling.TiredExecutorTest" time="0.004">
     <system-out><![CDATA[Worker 0: Used = 0, Idle = 0, Fatigue = 0.00
 Worker 1: Used = 0, Idle = 0, Fatigue = 0.00
 Worker 2: Used = 0, Idle = 0, Fatigue = 0.00
