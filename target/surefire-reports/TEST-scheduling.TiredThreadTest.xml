@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="scheduling.TiredThreadTest" time="0.16" tests="5" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="scheduling.TiredThreadTest" time="0.023" tests="3" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="24"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -16,7 +16,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-24\bin"/>
-    <property name="sun.java.command" value="C:\Users\malin\AppData\Local\Temp\surefire2583444720258881403\surefirebooter-20251230140657328_3.jar C:\Users\malin\AppData\Local\Temp\surefire2583444720258881403 2025-12-30T14-06-57_127-jvmRun1 surefire-20251230140657328_1tmp surefire_0-20251230140657328_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\malin\AppData\Local\Temp\surefire9664268043871953578\surefirebooter-20251230143808427_3.jar C:\Users\malin\AppData\Local\Temp\surefire9664268043871953578 2025-12-30T14-38-08_276-jvmRun1 surefire-20251230143808427_1tmp surefire_0-20251230143808427_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\malin\OneDrive\Desktop\Skeleton\target\test-classes;C:\Users\malin\OneDrive\Desktop\Skeleton\target\classes;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar;C:\Users\malin\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\malin\.m2\repository\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar;C:\Users\malin\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.2\junit-jupiter-engine-5.10.2.jar;C:\Users\malin\.m2\repository\org\junit\platform\junit-platform-engine\1.10.2\junit-platform-engine-1.10.2.jar;C:\Users\malin\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.17.1\jackson-databind-2.17.1.jar;C:\Users\malin\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.17.1\jackson-annotations-2.17.1.jar;C:\Users\malin\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.17.1\jackson-core-2.17.1.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\malin\AppData\Local\Temp\surefire2583444720258881403\surefirebooter-20251230140657328_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\malin\AppData\Local\Temp\surefire9664268043871953578\surefirebooter-20251230143808427_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="24.0.1+9-30"/>
@@ -59,9 +59,7 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="68.0"/>
   </properties>
-  <testcase name="testCompareToLogic" classname="scheduling.TiredThreadTest" time="0.083"/>
-  <testcase name="testShutdownLifecycle" classname="scheduling.TiredThreadTest" time="0.002"/>
-  <testcase name="testInitialization" classname="scheduling.TiredThreadTest" time="0.001"/>
-  <testcase name="testTaskExecutionUpdatesStats" classname="scheduling.TiredThreadTest" time="0.064"/>
-  <testcase name="testQueueCapacityOverflow" classname="scheduling.TiredThreadTest" time="0.002"/>
+  <testcase name="testShutdownLifecycle" classname="scheduling.TiredThreadTest" time="0.006"/>
+  <testcase name="testInitialization" classname="scheduling.TiredThreadTest" time="0.003"/>
+  <testcase name="testQueueCapacityOverflow" classname="scheduling.TiredThreadTest" time="0.005"/>
 </testsuite>

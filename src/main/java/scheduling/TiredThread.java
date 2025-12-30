@@ -76,29 +76,28 @@ public class TiredThread extends Thread implements Comparable<TiredThread> {
     public void run() {
 
         while (alive.get()) {
-            Runnable task = null;
             try {
-                task = handoff.take();
+                Runnable task = handoff.take();
+
+                timeIdle.addAndGet(System.nanoTime() - idleStartTime.get());
+
+                if (task == POISON_PILL) {
+                    alive.set(false);
+                    return;
+                }
+                busy.set(true);
+
+                try {
+                    task.run();
+                } catch (RuntimeException ignored) {}
+                finally {
+                    busy.set(false);
+                    idleStartTime.set(System.nanoTime());
+                }
+
             } catch (InterruptedException e) {
-                throw new RuntimeException(e);
-            }
-
-            timeIdle.addAndGet(System.nanoTime() - idleStartTime.get());
-
-            if (task == POISON_PILL)
-                alive.set(false);
-                // interrupt();
-            // INFO i commented because we made alive false but it still works without interrupting, because alive is false so the thread will just exit the run
-
-            busy.set(true);
-            long startWorkTime = System.nanoTime();
-
-            try {
-                task.run();
-            } finally {
-                timeUsed.addAndGet(System.nanoTime() - startWorkTime);
-                busy.set(false);
-                idleStartTime.set(System.nanoTime());
+                System.exit(1);
+                break;
             }
         }
     }
@@ -108,5 +107,9 @@ public class TiredThread extends Thread implements Comparable<TiredThread> {
         ///
 
         return Double.compare(this.getFatigue(), o.getFatigue());
+    }
+
+    public void addTimeUsed(long duration) {
+        this.timeUsed.addAndGet(duration);
     }
 }

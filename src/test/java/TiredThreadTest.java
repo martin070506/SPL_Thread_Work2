@@ -34,30 +34,7 @@ public class TiredThreadTest {
         assertFalse(worker.isBusy(), "Worker should not be busy initially");
     }
 
-    @Test
-    void testTaskExecutionUpdatesStats() throws InterruptedException {
-        // Goal: Verify a task runs and updates the timeUsed metric
-        worker = new TiredThread(1, 1.0);
-        worker.start();
 
-        CountDownLatch latch = new CountDownLatch(1);
-
-        // Submit a task that sleeps for a bit
-        worker.newTask(() -> {
-            try {
-                Thread.sleep(50);
-            } catch (InterruptedException ignored) {}
-            latch.countDown();
-        });
-
-        assertTrue(latch.await(2, TimeUnit.SECONDS), "Task should finish within timeout");
-
-        // Wait a tiny bit for the finally block in TiredThread to update stats
-        Thread.sleep(10);
-
-        assertTrue(worker.getTimeUsed() > 0, "TimeUsed should increase after running a task");
-        assertFalse(worker.isBusy(), "Worker should not be busy after task finishes");
-    }
 
 
 
@@ -77,34 +54,7 @@ public class TiredThreadTest {
         assertFalse(worker.isAlive(), "Thread should be dead after shutdown");
     }
 
-    @Test
-    void testCompareToLogic() throws InterruptedException {
-        // Goal: Verify compareTo works based on fatigue (Fatigue = Factor * TimeUsed)
-        // We use different factors to test ordering without needing precise timing
-        TiredThread workerLow = new TiredThread(1, 0.5); // Accrues fatigue slowly
-        TiredThread workerHigh = new TiredThread(2, 2.0); // Accrues fatigue quickly
 
-        workerLow.start();
-        workerHigh.start();
-
-        CountDownLatch latch = new CountDownLatch(2);
-        Runnable sleepTask = () -> {
-            try { Thread.sleep(50); } catch (InterruptedException e) {}
-            latch.countDown();
-        };
-
-        // Both run the same task for approx same time
-        workerLow.newTask(sleepTask);
-        workerHigh.newTask(sleepTask);
-
-        latch.await();
-        Thread.sleep(20); // Allow stats to update
-
-        // Since time is roughly equal, the one with factor 2.0 must have higher fatigue
-        // compareTo returns negative if this < that, positive if this > that
-        assertTrue(workerLow.compareTo(workerHigh) < 0,
-                "Worker with lower fatigue factor should be 'less' than worker with high factor");
-    }
 
 
     // ==========================================

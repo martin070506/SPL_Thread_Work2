@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="LinearAlgebraEngineTest" time="0.195" tests="8" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="LinearAlgebraEngineTest" time="0.187" tests="8" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="24"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -16,7 +16,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="US"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-24\bin"/>
-    <property name="sun.java.command" value="C:\Users\malin\AppData\Local\Temp\surefire2583444720258881403\surefirebooter-20251230140657328_3.jar C:\Users\malin\AppData\Local\Temp\surefire2583444720258881403 2025-12-30T14-06-57_127-jvmRun1 surefire-20251230140657328_1tmp surefire_0-20251230140657328_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\malin\AppData\Local\Temp\surefire9664268043871953578\surefirebooter-20251230143808427_3.jar C:\Users\malin\AppData\Local\Temp\surefire9664268043871953578 2025-12-30T14-38-08_276-jvmRun1 surefire-20251230143808427_1tmp surefire_0-20251230143808427_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Users\malin\OneDrive\Desktop\Skeleton\target\test-classes;C:\Users\malin\OneDrive\Desktop\Skeleton\target\classes;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar;C:\Users\malin\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\malin\.m2\repository\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar;C:\Users\malin\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.2\junit-jupiter-engine-5.10.2.jar;C:\Users\malin\.m2\repository\org\junit\platform\junit-platform-engine\1.10.2\junit-platform-engine-1.10.2.jar;C:\Users\malin\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.17.1\jackson-databind-2.17.1.jar;C:\Users\malin\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.17.1\jackson-annotations-2.17.1.jar;C:\Users\malin\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.17.1\jackson-core-2.17.1.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -31,7 +31,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\malin\AppData\Local\Temp\surefire2583444720258881403\surefirebooter-20251230140657328_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\malin\AppData\Local\Temp\surefire9664268043871953578\surefirebooter-20251230143808427_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="24.0.1+9-30"/>
@@ -59,7 +59,7 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="68.0"/>
   </properties>
-  <testcase name="testSimpleAddition" classname="LinearAlgebraEngineTest" time="0.055">
+  <testcase name="testSimpleAddition" classname="LinearAlgebraEngineTest" time="0.052">
     <system-out><![CDATA[ADD
 0.0ID: 0
 0.0ID: 1
@@ -70,12 +70,12 @@ Chose: ID: 0
 0.0ID: 1
 0.0ID: 2
 Chose: ID: 3
-Worker 0: Used = 233000, Idle = 14826800, Fatigue = 145144.50
+Worker 0: Used = 18600, Idle = 10763200, Fatigue = 19666.08
 Worker 1: Used = 0, Idle = 0, Fatigue = 0.00
 Worker 2: Used = 0, Idle = 0, Fatigue = 0.00
-Worker 3: Used = 28100, Idle = 13659800, Fatigue = 34319.93
+Worker 3: Used = 11100, Idle = 10002900, Fatigue = 7320.93
 
-Fairness : 1.488e+10
+Fairness : 2.583e+08
 
 ]]></system-out>
   </testcase>
@@ -90,16 +90,16 @@ Chose: ID: 0
 0.0ID: 1
 0.0ID: 2
 Chose: ID: 3
-Worker 0: Used = 84500, Idle = 2874000, Fatigue = 78307.88
+Worker 0: Used = 25400, Idle = 2966800, Fatigue = 32952.39
 Worker 1: Used = 0, Idle = 0, Fatigue = 0.00
 Worker 2: Used = 0, Idle = 0, Fatigue = 0.00
-Worker 3: Used = 38700, Idle = 2266200, Fatigue = 50838.45
+Worker 3: Used = 77900, Idle = 2042100, Fatigue = 69512.41
 
-Fairness : 4.584e+09
+Fairness : 3.293e+09
 
 ]]></system-out>
   </testcase>
-  <testcase name="testComplexTreeExecution" classname="LinearAlgebraEngineTest" time="0.01">
+  <testcase name="testComplexTreeExecution" classname="LinearAlgebraEngineTest" time="0.023">
     <system-out><![CDATA[ADD
 0.0ID: 0
 0.0ID: 1
@@ -113,23 +113,23 @@ Chose: ID: 3
 MULTIPLY
 0.0ID: 2
 0.0ID: 1
-28568.378140964818ID: 0
-24527.66195887406ID: 3
+19172.710708487743ID: 0
+14780.161976519506ID: 3
 Chose: ID: 2
 0.0ID: 1
-24527.66195887406ID: 3
-28568.378140964818ID: 0
+14780.161976519506ID: 3
+19172.710708487743ID: 0
 Chose: ID: 1
-Worker 0: Used = 33000, Idle = 4269400, Fatigue = 28568.38
-Worker 1: Used = 69300, Idle = 5377100, Fatigue = 64965.18
-Worker 2: Used = 53200, Idle = 4061800, Fatigue = 54056.00
-Worker 3: Used = 38000, Idle = 2411500, Fatigue = 24527.66
+Worker 0: Used = 18900, Idle = 4482900, Fatigue = 19172.71
+Worker 1: Used = 36100, Idle = 14966900, Fatigue = 33930.50
+Worker 2: Used = 37200, Idle = 14456300, Fatigue = 50990.41
+Worker 3: Used = 9900, Idle = 4132600, Fatigue = 14780.16
 
-Fairness : 1.172e+09
+Fairness : 8.046e+08
 
 ]]></system-out>
   </testcase>
-  <testcase name="testAssociativeAddition" classname="LinearAlgebraEngineTest" time="0.013">
+  <testcase name="testAssociativeAddition" classname="LinearAlgebraEngineTest" time="0.007">
     <system-out><![CDATA[ADD
 0.0ID: 0
 0.0ID: 1
@@ -140,28 +140,28 @@ ADD
 0.0ID: 3
 0.0ID: 1
 0.0ID: 2
-27330.491180574754ID: 0
+11301.680549930885ID: 0
 Chose: ID: 3
-Worker 0: Used = 29000, Idle = 2754000, Fatigue = 27330.49
+Worker 0: Used = 14200, Idle = 3158400, Fatigue = 11301.68
 Worker 1: Used = 0, Idle = 0, Fatigue = 0.00
 Worker 2: Used = 0, Idle = 0, Fatigue = 0.00
-Worker 3: Used = 20200, Idle = 2437900, Fatigue = 11234.58
+Worker 3: Used = 13700, Idle = 3262200, Fatigue = 13869.39
 
-Fairness : 5.032e+08
+Fairness : 1.617e+08
 
 ]]></system-out>
   </testcase>
-  <testcase name="testDimensionMismatchMultiply" classname="LinearAlgebraEngineTest" time="0.012">
+  <testcase name="testDimensionMismatchMultiply" classname="LinearAlgebraEngineTest" time="0.011">
     <system-out><![CDATA[MULTIPLY
-Fairness : 2.514e+05
+Fairness : 0.000e+00
 
 ]]></system-out>
   </testcase>
-  <testcase name="testDimensionMismatchAdd" classname="LinearAlgebraEngineTest" time="0.011">
+  <testcase name="testDimensionMismatchAdd" classname="LinearAlgebraEngineTest" time="0.008">
     <system-out><![CDATA[ADD
 ]]></system-out>
   </testcase>
-  <testcase name="testNegate" classname="LinearAlgebraEngineTest" time="0.023">
+  <testcase name="testNegate" classname="LinearAlgebraEngineTest" time="0.017">
     <system-out><![CDATA[NEGATE
 0.0ID: 0
 0.0ID: 1
@@ -172,28 +172,28 @@ Chose: ID: 0
 0.0ID: 1
 0.0ID: 2
 Chose: ID: 3
-Worker 0: Used = 49400, Idle = 4580300, Fatigue = 26097.00
+Worker 0: Used = 73000, Idle = 5933700, Fatigue = 67232.71
 Worker 1: Used = 0, Idle = 0, Fatigue = 0.00
 Worker 2: Used = 0, Idle = 0, Fatigue = 0.00
-Worker 3: Used = 45800, Idle = 8754100, Fatigue = 62732.48
+Worker 3: Used = 16000, Idle = 10719700, Fatigue = 22378.33
 
-Fairness : 2.659e+09
+Fairness : 3.013e+09
 
 ]]></system-out>
   </testcase>
-  <testcase name="testTranspose" classname="LinearAlgebraEngineTest" time="0.009">
+  <testcase name="testTranspose" classname="LinearAlgebraEngineTest" time="0.007">
     <system-out><![CDATA[TRANSPOSE
 0.0ID: 0
 0.0ID: 1
 0.0ID: 2
 0.0ID: 3
 Chose: ID: 0
-Worker 0: Used = 106500, Idle = 4613800, Fatigue = 99034.52
+Worker 0: Used = 61300, Idle = 4259100, Fatigue = 40785.25
 Worker 1: Used = 0, Idle = 0, Fatigue = 0.00
 Worker 2: Used = 0, Idle = 0, Fatigue = 0.00
 Worker 3: Used = 0, Idle = 0, Fatigue = 0.00
 
-Fairness : 7.490e+09
+Fairness : 1.248e+09
 
 ]]></system-out>
   </testcase>
