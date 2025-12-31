@@ -101,7 +101,7 @@ public class LinearAlgebraEngine {
             resolvablePointer.resolve(leftMatrix.readRowMajor());
         }
 
-        System.out.println(getWorkerReport());
+        System.out.println("\n" + getWorkerReport());
         executor.shutdown();
     }
 

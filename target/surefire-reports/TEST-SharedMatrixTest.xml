@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="SharedMatrixTest" time="0.331" tests="30" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="SharedMatrixTest" time="0.354" tests="30" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="25"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -12,7 +12,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="IL"/>
     <property name="sun.boot.library.path" value="/usr/local/Cellar/openjdk/25.0.1/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/liav/IdeaProjects/SPL_Thread_Work2/target/surefire/surefirebooter-20251231165856859_3.jar /Users/liav/IdeaProjects/SPL_Thread_Work2/target/surefire 2025-12-31T16-58-56_756-jvmRun1 surefire-20251231165856859_1tmp surefire_0-20251231165856859_2tmp"/>
+    <property name="sun.java.command" value="/Users/liav/IdeaProjects/SPL_Thread_Work2/target/surefire/surefirebooter-20251231174205594_3.jar /Users/liav/IdeaProjects/SPL_Thread_Work2/target/surefire 2025-12-31T17-42-05_482-jvmRun1 surefire-20251231174205594_1tmp surefire_0-20251231174205594_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/liav/IdeaProjects/SPL_Thread_Work2/target/test-classes:/Users/liav/IdeaProjects/SPL_Thread_Work2/target/classes:/Users/liav/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/Users/liav/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/liav/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/liav/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/liav/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/liav/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/Users/liav/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/liav/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/Users/liav/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.17.1/jackson-databind-2.17.1.jar:/Users/liav/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.17.1/jackson-annotations-2.17.1.jar:/Users/liav/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.17.1/jackson-core-2.17.1.jar:"/>
@@ -29,7 +29,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/liav/IdeaProjects/SPL_Thread_Work2/target/surefire/surefirebooter-20251231165856859_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/liav/IdeaProjects/SPL_Thread_Work2/target/surefire/surefirebooter-20251231174205594_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="25.0.1"/>
@@ -59,7 +59,7 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="69.0"/>
   </properties>
-  <testcase name="testVerySmallValues" classname="SharedMatrixTest" time="0.031">
+  <testcase name="testVerySmallValues" classname="SharedMatrixTest" time="0.03">
     <system-out><![CDATA[=== Testing Very Small Values ===
 Input values: 1e-10, 2e-10, 3e-10, 4e-10
 Result values: 1.0E-10, 2.0E-10, 3.0E-10, 4.0E-10
@@ -67,8 +67,8 @@ Result values: 1.0E-10, 2.0E-10, 3.0E-10, 4.0E-10
 
 ]]></system-out>
   </testcase>
-  <testcase name="LoadColumnMajorTest" classname="SharedMatrixTest" time="0.003"/>
-  <testcase name="testGetOutOfBounds" classname="SharedMatrixTest" time="0.003">
+  <testcase name="LoadColumnMajorTest" classname="SharedMatrixTest" time="0.002"/>
+  <testcase name="testGetOutOfBounds" classname="SharedMatrixTest" time="0.004">
     <system-out><![CDATA[=== Testing Get Out of Bounds ===
 Matrix length: 2
 Attempting to get index 5 (should throw exception)...
@@ -79,7 +79,7 @@ Attempting to get index -1 (should throw exception)...
 
 ]]></system-out>
   </testcase>
-  <testcase name="testRectangularMatrix2x5" classname="SharedMatrixTest" time="0.002">
+  <testcase name="testRectangularMatrix2x5" classname="SharedMatrixTest" time="0.003">
     <system-out><![CDATA[=== Testing Rectangular Matrix (2x5) ===
 Input: 2 rows x 5 columns
 Matrix length: 2
@@ -88,7 +88,7 @@ Result dimensions: 2x5
 
 ]]></system-out>
   </testcase>
-  <testcase name="testRectangularMatrix5x2" classname="SharedMatrixTest" time="0.001">
+  <testcase name="testRectangularMatrix5x2" classname="SharedMatrixTest" time="0.002">
     <system-out><![CDATA[=== Testing Rectangular Matrix (5x2) ===
 Input: 5 rows x 2 columns
 Matrix length: 5
@@ -107,7 +107,7 @@ Read result length: 0
 
 ]]></system-out>
   </testcase>
-  <testcase name="LoadRowMajorTest" classname="SharedMatrixTest" time="0.003">
+  <testcase name="LoadRowMajorTest" classname="SharedMatrixTest" time="0.004">
     <system-out><![CDATA[1.0, 2.0, 3.0, 4.0, 
 5.0, 6.0, 7.0, 8.0, 
 9.0, 10.0, 11.0, 12.0, 
@@ -119,8 +119,8 @@ Read result length: 0
 13.0, 14.0, 15.0, 16.0, 
 ]]></system-out>
   </testcase>
-  <testcase name="testLengthMethod" classname="SharedMatrixTest" time="0.001"/>
-  <testcase name="testSingleElementMatrix" classname="SharedMatrixTest" time="0.001">
+  <testcase name="testLengthMethod" classname="SharedMatrixTest" time="0.002"/>
+  <testcase name="testSingleElementMatrix" classname="SharedMatrixTest" time="0.002">
     <system-out><![CDATA[=== Testing Single Element Matrix (1x1) ===
 Matrix length: 1
 Result dimensions: 1x1
@@ -144,7 +144,7 @@ Result matrix:
 ]]></system-out>
   </testcase>
   <testcase name="testGetOrientationColumnMajor" classname="SharedMatrixTest" time="0.002"/>
-  <testcase name="testMultipleLoadsOverwrite" classname="SharedMatrixTest" time="0.003">
+  <testcase name="testMultipleLoadsOverwrite" classname="SharedMatrixTest" time="0.001">
     <system-out><![CDATA[=== Testing Multiple Loads Overwrite ===
 After first load (matrix1): length = 2
 After second load (matrix3): length = 3
@@ -154,7 +154,7 @@ Final matrix matches matrix3: true
 ]]></system-out>
   </testcase>
   <testcase name="testConstructorWithMatrix" classname="SharedMatrixTest" time="0.002"/>
-  <testcase name="testReadWriteConcurrency" classname="SharedMatrixTest" time="0.106">
+  <testcase name="testReadWriteConcurrency" classname="SharedMatrixTest" time="0.104">
     <system-out><![CDATA[=== Testing Read/Write Locks Concurrency ===
 ✓ Read/Write concurrency passed
 
@@ -180,7 +180,7 @@ Orientation: COLUMN_MAJOR
 
 ]]></system-out>
   </testcase>
-  <testcase name="testNegativeValues" classname="SharedMatrixTest" time="0.001">
+  <testcase name="testNegativeValues" classname="SharedMatrixTest" time="0.002">
     <system-out><![CDATA[=== Testing Negative Values ===
 Input matrix:
 [-1.0, -2.0]
@@ -199,8 +199,8 @@ Result length: 0
 
 ]]></system-out>
   </testcase>
-  <testcase name="testGetMethod" classname="SharedMatrixTest" time="0.001"/>
-  <testcase name="testSingleColumnMatrix" classname="SharedMatrixTest" time="0.001">
+  <testcase name="testGetMethod" classname="SharedMatrixTest" time="0.002"/>
+  <testcase name="testSingleColumnMatrix" classname="SharedMatrixTest" time="0.002">
     <system-out><![CDATA[=== Testing Single Column Matrix (Nx1) ===
 Matrix length: 4
 First vector length: 1
@@ -218,7 +218,7 @@ After loadRowMajor again: ROW_MAJOR
 ]]></system-out>
   </testcase>
   <testcase name="testEmptyMatrixConstructor" classname="SharedMatrixTest" time="0.001"/>
-  <testcase name="testLoadColumnMajorRectangular" classname="SharedMatrixTest" time="0.001">
+  <testcase name="testLoadColumnMajorRectangular" classname="SharedMatrixTest" time="0.002">
     <system-out><![CDATA[=== Testing Load Column Major Rectangular (2x3) ===
 Input matrix:
 [1.0, 2.0, 3.0]
@@ -247,13 +247,13 @@ Orientation: ROW_MAJOR
 
 ]]></system-out>
   </testcase>
-  <testcase name="testWriteWriteConcurrency" classname="SharedMatrixTest" time="0.102">
+  <testcase name="testWriteWriteConcurrency" classname="SharedMatrixTest" time="0.105">
     <system-out><![CDATA[=== Testing Write/Write Locks Concurrency ===
 ✓ Write/Write concurrency passed
 
 ]]></system-out>
   </testcase>
-  <testcase name="testLargeMatrix" classname="SharedMatrixTest" time="0.002">
+  <testcase name="testLargeMatrix" classname="SharedMatrixTest" time="0.003">
     <system-out><![CDATA[=== Testing Large Matrix (10x10) ===
 Loading 10x10 matrix...
 Matrix length: 10

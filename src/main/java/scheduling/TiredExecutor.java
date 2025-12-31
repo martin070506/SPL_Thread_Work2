@@ -35,15 +35,14 @@ public class TiredExecutor {
         while (idleMinHeap.isEmpty())
             try {
                 wait();
-            } catch (InterruptedException ignored) {
-            }
+            } catch (InterruptedException ignored) {}
 
-        // TODO: Delete
+        // TODO: Delete Comments
 
-        for (TiredThread worker : idleMinHeap)
-            System.out.println(worker.getFatigue() + ",     ID: " + worker.getWorkerId());
+//        for (TiredThread worker : idleMinHeap)
+//            System.out.println(worker.getFatigue() + ",     ID: " + worker.getWorkerId());
         TiredThread worker = idleMinHeap.poll();
-        System.out.println("\n\n\nChose: " + worker.getWorkerId());
+//        System.out.println("\n\n\nChose: " + worker.getWorkerId());
 
         if (worker != null) {
             Runnable wrapped = () -> {
@@ -100,7 +99,7 @@ public class TiredExecutor {
         for (TiredThread t : workers)
             sb.append(String.format("Worker %d: Used = %d, Idle = %d, Fatigue = %.2f\n",
                             t.getWorkerId(), t.getTimeUsed() , t.getTimeIdle(), t.getFatigue()));
-        sb.append(String.format("Fairness : %.3e\n%n", getFairness()));
+        sb.append(String.format("\nFairness : %.3e\n%n", getFairness()));
 
         return sb.toString();
     }
