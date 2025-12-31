@@ -1,10 +1,7 @@
 package scheduling;
 
 import java.util.Random;
-import java.util.concurrent.Executor;
 import java.util.concurrent.PriorityBlockingQueue;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class TiredExecutor {
@@ -37,12 +34,7 @@ public class TiredExecutor {
                 wait();
             } catch (InterruptedException ignored) {}
 
-        // TODO: Delete Comments
-
-//        for (TiredThread worker : idleMinHeap)
-//            System.out.println(worker.getFatigue() + ",     ID: " + worker.getWorkerId());
         TiredThread worker = idleMinHeap.poll();
-//        System.out.println("\n\n\nChose: " + worker.getWorkerId());
 
         if (worker != null) {
             Runnable wrapped = () -> {

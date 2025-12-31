@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="LinearAlgebraEngineTest" time="0.037" tests="8" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="LinearAlgebraEngineTest" time="0.051" tests="8" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="25"/>
     <property name="sun.jnu.encoding" value="UTF-8"/>
@@ -12,7 +12,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="IL"/>
     <property name="sun.boot.library.path" value="/usr/local/Cellar/openjdk/25.0.1/libexec/openjdk.jdk/Contents/Home/lib"/>
-    <property name="sun.java.command" value="/Users/liav/IdeaProjects/SPL_Thread_Work2/target/surefire/surefirebooter-20251231174205594_3.jar /Users/liav/IdeaProjects/SPL_Thread_Work2/target/surefire 2025-12-31T17-42-05_482-jvmRun1 surefire-20251231174205594_1tmp surefire_0-20251231174205594_2tmp"/>
+    <property name="sun.java.command" value="/Users/liav/IdeaProjects/SPL_Thread_Work2/target/surefire/surefirebooter-20260101000602928_3.jar /Users/liav/IdeaProjects/SPL_Thread_Work2/target/surefire 2026-01-01T00-06-02_793-jvmRun1 surefire-20260101000602928_1tmp surefire_0-20260101000602928_2tmp"/>
     <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="/Users/liav/IdeaProjects/SPL_Thread_Work2/target/test-classes:/Users/liav/IdeaProjects/SPL_Thread_Work2/target/classes:/Users/liav/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/Users/liav/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/liav/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/liav/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/liav/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/liav/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/Users/liav/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/liav/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/Users/liav/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.17.1/jackson-databind-2.17.1.jar:/Users/liav/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.17.1/jackson-annotations-2.17.1.jar:/Users/liav/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.17.1/jackson-core-2.17.1.jar:"/>
@@ -29,7 +29,7 @@
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
     <property name="apple.awt.application.name" value="ForkedBooter"/>
-    <property name="surefire.real.class.path" value="/Users/liav/IdeaProjects/SPL_Thread_Work2/target/surefire/surefirebooter-20251231174205594_3.jar"/>
+    <property name="surefire.real.class.path" value="/Users/liav/IdeaProjects/SPL_Thread_Work2/target/surefire/surefirebooter-20260101000602928_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.runtime.version" value="25.0.1"/>
@@ -59,15 +59,15 @@
     <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="java.class.version" value="69.0"/>
   </properties>
-  <testcase name="testSimpleAddition" classname="LinearAlgebraEngineTest" time="0.007">
+  <testcase name="testSimpleAddition" classname="LinearAlgebraEngineTest" time="0.011">
     <system-out><![CDATA[ADD
 
-Worker 0: Used = 23123, Idle = 3845045, Fatigue = 28397.98
+Worker 0: Used = 97653, Idle = 6339479, Fatigue = 59649.52
 Worker 1: Used = 0, Idle = 0, Fatigue = 0.00
 Worker 2: Used = 0, Idle = 0, Fatigue = 0.00
-Worker 3: Used = 20408, Idle = 3327290, Fatigue = 11800.02
+Worker 3: Used = 75955, Idle = 5318145, Fatigue = 48684.48
 
-Fairness : 5.417e+08
+Fairness : 2.994e+09
 
 
 ]]></system-out>
@@ -75,45 +75,45 @@ Fairness : 5.417e+08
   <testcase name="testMatrixMultiplication" classname="LinearAlgebraEngineTest" time="0.004">
     <system-out><![CDATA[MULTIPLY
 
-Worker 0: Used = 37682, Idle = 1303745, Fatigue = 30799.78
+Worker 0: Used = 83124, Idle = 2095196, Fatigue = 91275.67
 Worker 1: Used = 0, Idle = 0, Fatigue = 0.00
 Worker 2: Used = 0, Idle = 0, Fatigue = 0.00
-Worker 3: Used = 22777, Idle = 748903, Fatigue = 28718.10
+Worker 3: Used = 25573, Idle = 1190542, Fatigue = 15924.60
 
-Fairness : 8.878e+08
+Fairness : 5.712e+09
 
 
 ]]></system-out>
   </testcase>
-  <testcase name="testComplexTreeExecution" classname="LinearAlgebraEngineTest" time="0.003">
+  <testcase name="testComplexTreeExecution" classname="LinearAlgebraEngineTest" time="0.005">
     <system-out><![CDATA[ADD
 MULTIPLY
 
-Worker 0: Used = 4147, Idle = 940760, Fatigue = 4668.97
-Worker 1: Used = 8903, Idle = 877937, Fatigue = 10784.16
-Worker 2: Used = 7195, Idle = 679627, Fatigue = 6441.61
-Worker 3: Used = 4017, Idle = 324037, Fatigue = 5101.25
+Worker 0: Used = 12590, Idle = 1417660, Fatigue = 11950.98
+Worker 1: Used = 11028, Idle = 1361637, Fatigue = 12046.58
+Worker 2: Used = 10979, Idle = 1138590, Fatigue = 12099.15
+Worker 3: Used = 6505, Idle = 741103, Fatigue = 4307.24
 
-Fairness : 2.342e+07
+Fairness : 4.477e+07
 
 
 ]]></system-out>
   </testcase>
-  <testcase name="testAssociativeAddition" classname="LinearAlgebraEngineTest" time="0.003">
+  <testcase name="testAssociativeAddition" classname="LinearAlgebraEngineTest" time="0.004">
     <system-out><![CDATA[ADD
 ADD
 
-Worker 0: Used = 7996, Idle = 639890, Fatigue = 11721.43
+Worker 0: Used = 7763, Idle = 1179478, Fatigue = 8731.16
 Worker 1: Used = 0, Idle = 0, Fatigue = 0.00
 Worker 2: Used = 0, Idle = 0, Fatigue = 0.00
-Worker 3: Used = 2453, Idle = 379453, Fatigue = 2567.43
+Worker 3: Used = 3910, Idle = 615587, Fatigue = 2345.90
 
-Fairness : 9.294e+07
+Fairness : 5.106e+07
 
 
 ]]></system-out>
   </testcase>
-  <testcase name="testDimensionMismatchMultiply" classname="LinearAlgebraEngineTest" time="0.003">
+  <testcase name="testDimensionMismatchMultiply" classname="LinearAlgebraEngineTest" time="0.005">
     <system-out><![CDATA[MULTIPLY
 ]]></system-out>
   </testcase>
@@ -121,28 +121,28 @@ Fairness : 9.294e+07
     <system-out><![CDATA[ADD
 ]]></system-out>
   </testcase>
-  <testcase name="testNegate" classname="LinearAlgebraEngineTest" time="0.003">
+  <testcase name="testNegate" classname="LinearAlgebraEngineTest" time="0.004">
     <system-out><![CDATA[NEGATE
 
-Worker 0: Used = 8838, Idle = 1330602, Fatigue = 10149.38
+Worker 0: Used = 23565, Idle = 1706074, Fatigue = 12045.62
 Worker 1: Used = 0, Idle = 0, Fatigue = 0.00
 Worker 2: Used = 0, Idle = 0, Fatigue = 0.00
-Worker 3: Used = 2410, Idle = 690875, Fatigue = 2169.98
+Worker 3: Used = 22060, Idle = 1249897, Fatigue = 29805.21
 
-Fairness : 6.978e+07
+Fairness : 5.956e+08
 
 
 ]]></system-out>
   </testcase>
-  <testcase name="testTranspose" classname="LinearAlgebraEngineTest" time="0.004">
+  <testcase name="testTranspose" classname="LinearAlgebraEngineTest" time="0.006">
     <system-out><![CDATA[TRANSPOSE
 
-Worker 0: Used = 19129, Idle = 2030573, Fatigue = 13201.42
+Worker 0: Used = 17242, Idle = 3589687, Fatigue = 16919.37
 Worker 1: Used = 0, Idle = 0, Fatigue = 0.00
 Worker 2: Used = 0, Idle = 0, Fatigue = 0.00
-Worker 3: Used = 2673, Idle = 1238076, Fatigue = 1888.06
+Worker 3: Used = 2547, Idle = 2785195, Fatigue = 3591.84
 
-Fairness : 1.209e+08
+Fairness : 1.940e+08
 
 
 ]]></system-out>
