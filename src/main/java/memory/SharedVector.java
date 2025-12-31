@@ -16,7 +16,6 @@ public class SharedVector {
 
         this.vector = vector;
         this.orientation = orientation;
-
     }
 
     public double get(int index) {
@@ -28,10 +27,9 @@ public class SharedVector {
                 throw new IndexOutOfBoundsException("Index out of bounds: " + index);
 
             return vector[index];
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
-        finally {
+        } catch (IndexOutOfBoundsException e) {
+            throw new IndexOutOfBoundsException(e.getMessage());
+        } finally {
             readUnlock();
         }
     }
@@ -42,8 +40,7 @@ public class SharedVector {
         readLock();
         try {
             return vector.length;
-        }
-        finally {
+        } finally {
             readUnlock();
         }
     }
@@ -54,8 +51,7 @@ public class SharedVector {
         readLock();
         try {
             return orientation;
-        }
-        finally {
+        } finally {
             readUnlock();
         }
     }
@@ -88,15 +84,11 @@ public class SharedVector {
         /// transpose vector
 
         writeLock();
-        try {
-            if (orientation == VectorOrientation.ROW_MAJOR)
-                    orientation = VectorOrientation.COLUMN_MAJOR;
-            else
-                orientation = VectorOrientation.ROW_MAJOR;
-        }
-        finally {
-            writeUnlock();
-        }
+        if (orientation == VectorOrientation.ROW_MAJOR)
+            orientation = VectorOrientation.COLUMN_MAJOR;
+        else
+            orientation = VectorOrientation.ROW_MAJOR;
+        writeUnlock();
     }
 
     public void add(SharedVector other) {
@@ -104,6 +96,7 @@ public class SharedVector {
 
         int thisOBJ = System.identityHashCode(this);
         int matrixOBJ = System.identityHashCode(other);
+        // TODO: Delete Comment
         if (thisOBJ <= matrixOBJ) { // THIS IS TO ALWAYS LOCK/UNLOCK IN THE SAME ORDER
             this.readLock();
             other.readLock();
@@ -113,13 +106,14 @@ public class SharedVector {
         }
         try {
             if (this.vector.length != other.vector.length)
-                throw new IllegalArgumentException("Vector lengths don't match");
+                throw new IllegalArgumentException("Vector Lengths don't match");
             if (this.orientation != other.orientation)
-                throw new IllegalArgumentException("Vectors Orientation Dismatch");
+                throw new IllegalArgumentException("Vectors Orientation don't match");
 
             for (int i = 0; i < vector.length; i++)
                 vector[i] += other.vector[i];
         } finally {
+            // TODO: Delete Comment
             if (thisOBJ <= matrixOBJ) { // THIS IS TO ALWAYS LOCK/UNLOCK IN THE SAME ORDER
                 other.readLock();
                 this.readLock();
@@ -136,13 +130,9 @@ public class SharedVector {
         /// negate vector
 
         writeLock();
-        try {
-            for (int i = 0; i < vector.length; i++)
-                vector[i] *= -1;
-        }
-        finally {
-            writeUnlock();
-        }
+        for (int i = 0; i < vector.length; i++)
+            vector[i] *= -1;
+        writeUnlock();
     }
 
     public double dot(SharedVector other) {
@@ -169,9 +159,8 @@ public class SharedVector {
                 sum += vector[i] * other.vector[i];
 
             return sum;
-
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            throw new IllegalArgumentException(e.getMessage());
         } finally {
             if (thisOBJ <= otherOBJ) {
                 other.readUnlock();
@@ -186,32 +175,32 @@ public class SharedVector {
 
     public void vecMatMul(SharedMatrix matrix) {
         /// compute row-vector × matrix
+
         this.writeLock();
+        acquireAllVectorReadLocks(matrix);
+        // TODO: Delete Comment
         // IMPORTANT
         // in this method we assume we get a vector by columns, in the LAE class before sending to here, we will LoadColumnMajor
         try {
+            // TODO: Delete Comment
             // HERE WE Split into cases where we are given row matrix(we will load column) or a already given a column matrix
 
             if (orientation != VectorOrientation.ROW_MAJOR)
                 throw new IllegalArgumentException("Vector Orientation Should Be Row Major");
             if (matrix.getOrientation() != VectorOrientation.COLUMN_MAJOR)
                 throw new IllegalArgumentException("Matrix Should Be Column Major");
+            if (this.length() != matrix.get(0).length())
+                throw new IllegalArgumentException("Matrix Length Mismatch");
 
-            acquireAllVectorReadLocks(matrix);
-            try {
-                handleVecMatMulWithColumnMatrix(matrix);
-            }
-            catch (Exception e) {
-                throw new RuntimeException(e.getMessage());
-            }
-            finally {
-                releaseAllVectorReadLocks(matrix);
-            }
-        }
-        catch (Exception e) {
+            double[] newVector = new double[matrix.length()];
+            for (int i = 0; i < matrix.length(); i++)
+                newVector[i] = UnsafeDot(matrix.get(i));
+
+            vector = newVector;
+        } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
-        }
-        finally {
+        } finally {
+            releaseAllVectorReadLocks(matrix);
             this.writeUnlock();
         }
     }
@@ -226,39 +215,16 @@ public class SharedVector {
             matrix.get(i).readUnlock();
     }
 
-    private void handleVecMatMulWithColumnMatrix(SharedMatrix matrix) {
-
-        // Here We know we get a column displayed matrix
-        try {
-            if (this.length() != matrix.get(0).length())
-                throw new IllegalArgumentException("Matrix Length Mismatch");
-
-            double[] vector = new double[matrix.length()];
-            for (int i = 0; i < vector.length; i++)
-                vector[i] = UnsafeDot(matrix.get(i));
-
-           this.vector = vector;
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
-    }
-
     private double UnsafeDot(SharedVector other){
-        try {
-            if (this.vector.length != other.vector.length)
-                throw new IllegalArgumentException("Vectors Length Mismatch");
-            if (this.orientation == other.orientation)
-                throw new IllegalArgumentException("Matrix Should Be Column Major");
+        if (this.vector.length != other.vector.length)
+            throw new IllegalArgumentException("Vectors Length Mismatch");
+        if (this.orientation == other.orientation)
+            throw new IllegalArgumentException("Right Vector Should Be Column-Major");
 
-            double sum = 0;
-            for (int i = 0; i < vector.length; i++)
-                sum += vector[i] * other.vector[i];
+        double sum = 0;
+        for (int i = 0; i < vector.length; i++)
+            sum += vector[i] * other.vector[i];
 
-            return sum;
-        }
-        catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
-        }
+        return sum;
     }
 }

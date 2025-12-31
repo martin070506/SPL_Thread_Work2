@@ -59,7 +59,7 @@ public class TiredThread extends Thread implements Comparable<TiredThread> {
         ///
 
         if (!handoff.offer(task))
-            throw new IllegalStateException();
+            throw new IllegalStateException("Handoff rejected.");
     }
 
     /**
@@ -68,10 +68,12 @@ public class TiredThread extends Thread implements Comparable<TiredThread> {
      */
     public void shutdown() {
         ///
-        try{
+
+        try {
             handoff.put(POISON_PILL);
-        }catch(InterruptedException e){
+        } catch (InterruptedException e){
             Thread.currentThread().interrupt();
+            handoff.add(POISON_PILL);
         }
     }
 
@@ -80,27 +82,27 @@ public class TiredThread extends Thread implements Comparable<TiredThread> {
 
         idleStartTime.set(System.nanoTime());
         while (alive.get()) {
+            Runnable task;
             try {
-                Runnable task = handoff.take();
-                if (task == POISON_PILL) {
-                    alive.set(false);
-                    return;
-                }
-                timeIdle.addAndGet(System.nanoTime() - idleStartTime.get());
-
-                busy.set(true);
-
-                try {
-                    task.run();
-                } catch (RuntimeException ignored) {}
-                finally {
-                    busy.set(false);
-                    idleStartTime.set(System.nanoTime());
-                }
-
+                task = handoff.take();
             } catch (InterruptedException e) {
-                System.exit(1);
-                break;
+                throw new RuntimeException(e);
+            }
+
+            if (task == POISON_PILL) {
+                alive.set(false);
+                return;
+            }
+            timeIdle.addAndGet(System.nanoTime() - idleStartTime.get());
+            busy.set(true);
+
+            try {
+                task.run();
+            } catch (RuntimeException e) {
+                throw new RuntimeException(e.getMessage());
+            } finally {
+                busy.set(false);
+                idleStartTime.set(System.nanoTime());
             }
         }
     }

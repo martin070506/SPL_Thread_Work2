@@ -28,37 +28,35 @@ public class TiredExecutor {
 
     public synchronized void submit(Runnable task) {
         ///
-        if(task==null){
-            throw new NullPointerException();
-        }
-        while (idleMinHeap.isEmpty()) {
+
+        if (task == null)
+            throw new NullPointerException("Task is null.");
+
+        while (idleMinHeap.isEmpty())
             try {
                 wait();
-            } catch (InterruptedException ignored) {}
-        }
-        for(TiredThread worker : idleMinHeap) {
-            System.out.println(worker.getFatigue() + "ID: " +worker.getWorkerId());
-        }
+            } catch (InterruptedException ignored) {
+            }
+
+        // TODO: Delete
+
+        for (TiredThread worker : idleMinHeap)
+            System.out.println(worker.getFatigue() + ",     ID: " + worker.getWorkerId());
         TiredThread worker = idleMinHeap.poll();
-        System.out.println("Chose: " + "ID: " + worker.getWorkerId());
+        System.out.println("\n\n\nChose: " + worker.getWorkerId());
 
         if (worker != null) {
             Runnable wrapped = () -> {
-                 // 1. Start Clock
                 long start = System.nanoTime();
                 try {
                     task.run();
                 } finally {
-                    long duration = System.nanoTime() - start; // 2. Stop Clock
+                    long duration = System.nanoTime() - start;
 
-                    synchronized(this) {
+                    synchronized (this) {
                         inFlight.decrementAndGet();
-
-                        // 3. Update Fatigue NOW (Before entering queue)
                         worker.addTimeUsed(duration);
-                        // 4. Enter Queue (Sorted correctly!)
-                        idleMinHeap.offer(worker);
-
+                        idleMinHeap.add(worker);
                         notifyAll();
                     }
                 }
@@ -92,7 +90,6 @@ public class TiredExecutor {
                 worker.join();
             } catch (InterruptedException ignored) {}
 
-        System.out.printf("Fairness : %.3e\n%n", getFairness());
     }
 
     public synchronized String getWorkerReport() {
@@ -102,7 +99,8 @@ public class TiredExecutor {
 
         for (TiredThread t : workers)
             sb.append(String.format("Worker %d: Used = %d, Idle = %d, Fatigue = %.2f\n",
-                    t.getWorkerId(), t.getTimeUsed() , t.getTimeIdle(), t.getFatigue()));
+                            t.getWorkerId(), t.getTimeUsed() , t.getTimeIdle(), t.getFatigue()));
+        sb.append(String.format("Fairness : %.3e\n%n", getFairness()));
 
         return sb.toString();
     }

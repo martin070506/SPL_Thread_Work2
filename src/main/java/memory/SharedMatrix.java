@@ -30,11 +30,8 @@ public class SharedMatrix {
 
         SharedVector[] oldVectors = vectors;
         acquireAllVectorWriteLocks(oldVectors);
-        try {
-            vectors = newVectors;
-        } finally {
-            releaseAllVectorWriteLocks(oldVectors);
-        }
+        vectors = newVectors;
+        releaseAllVectorWriteLocks(oldVectors);
     }
 
 
@@ -53,11 +50,8 @@ public class SharedMatrix {
 
         SharedVector[] oldVectors = vectors;
         acquireAllVectorWriteLocks(oldVectors);
-        try {
-            vectors = newVectors;
-        } finally {
-            releaseAllVectorWriteLocks(oldVectors);
-        }
+        vectors = newVectors;
+        releaseAllVectorWriteLocks(oldVectors);
     }
 
 
@@ -65,23 +59,24 @@ public class SharedMatrix {
         /// return matrix contents as a row-major double[][]
 
         acquireAllVectorReadLocks(vectors);
+
+        if (!isValidVector())
+            return new double[0][0];
+        double[][] matrix;
+
+        if (vectors[0].getOrientation() == VectorOrientation.ROW_MAJOR) {
+            matrix = new double[vectors.length][vectors[0].length()];
+            for (int i = 0; i < vectors.length; i++)
+                for (int j = 0; j < vectors[0].length(); j++)
+                    matrix[i][j] = vectors[i].get(j);
+        } else {
+            matrix = new double[vectors[0].length()][vectors.length];
+            for (int i = 0; i < vectors[0].length(); i++)
+                for (int j = 0; j < vectors.length; j++)
+                    matrix[i][j] = vectors[j].get(i);
+        }
+
         try {
-            if (!isValidVector())
-                return new double[0][0];
-            double[][] matrix = null;
-
-            if (vectors[0].getOrientation() == VectorOrientation.ROW_MAJOR) {
-                matrix = new double[vectors.length][vectors[0].length()];
-                for (int i = 0; i < vectors.length; i++)
-                    for (int j = 0; j < vectors[0].length(); j++)
-                        matrix[i][j] = vectors[i].get(j);
-            } else {
-                matrix = new double[vectors[0].length()][vectors.length];
-                for (int i = 0; i < vectors[0].length(); i++)
-                    for (int j = 0; j < vectors.length; j++)
-                        matrix[i][j] = vectors[j].get(i);
-            }
-
             return matrix;
         } finally {
             releaseAllVectorReadLocks(vectors);
@@ -92,11 +87,7 @@ public class SharedMatrix {
         /// return vector at index
 
         if (index < 0 || index >= vectors.length)
-            try {
-                throw new IndexOutOfBoundsException("Index out of bounds: " + index);
-            } catch (Exception e) {
-                throw new IndexOutOfBoundsException(e.getMessage());
-            }
+            throw new IndexOutOfBoundsException("Index out of bounds: " + index);
 
         return vectors[index];
     }
@@ -116,11 +107,7 @@ public class SharedMatrix {
         /// return orientation
 
         if (!isValidVector())
-            try {
-                throw  new IllegalStateException("Cannot Get orienation of an empty Matrix");
-            } catch (Exception e) {
-                throw new IllegalStateException(e.getMessage());
-            }
+            throw new IllegalStateException("Cannot Get orienation of an empty Matrix");
 
         return vectors[0].getOrientation();
     }
@@ -130,6 +117,7 @@ public class SharedMatrix {
 
         for (SharedVector vec : vecs)
             vec.readLock();
+
     }
 
     private void releaseAllVectorReadLocks(SharedVector[] vecs) {
@@ -137,6 +125,7 @@ public class SharedMatrix {
 
         for (SharedVector vec : vecs)
             vec.readUnlock();
+
     }
 
     private void acquireAllVectorWriteLocks(SharedVector[] vecs) {
@@ -144,6 +133,7 @@ public class SharedMatrix {
 
         for (SharedVector vec : vecs)
             vec.writeLock();
+
     }
 
     private void releaseAllVectorWriteLocks(SharedVector[] vecs) {
@@ -151,6 +141,7 @@ public class SharedMatrix {
 
         for (SharedVector vec : vecs)
             vec.writeUnlock();
+
     }
 
     private boolean isValidVector() {

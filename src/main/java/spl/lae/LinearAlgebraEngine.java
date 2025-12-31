@@ -28,26 +28,26 @@ public class LinearAlgebraEngine {
         try {
             loadAndCompute(computationRoot);
         } catch (Exception e) {
+            executor.shutdown();
             throw new RuntimeException(e.getMessage());
         }
 
         return computationRoot;
     }
 
-    public void loadAndCompute(ComputationNode node) throws Exception {
+    public void loadAndCompute(ComputationNode node) {
         /// load operand matrices
         /// create compute tasks & submit tasks to executor
 
-        // TODO: Check if The new Variable is Legit
-        AtomicReference<Throwable> taskError = new java.util.concurrent.atomic.AtomicReference<>(null);
-
         while (node != null && node.findResolvable() != null) {
-            List<Runnable> tasks = List.of();
+            List<Runnable> tasks;
             ComputationNode resolvablePointer = node.findResolvable(); // A+B+C+D
 
             while (resolvablePointer.getChildren().size() > 2) {
                 resolvablePointer.associativeNesting();
                 resolvablePointer = resolvablePointer.findResolvable();
+
+                // TODO: Delete Comment
                 // This ensures resolvable pointer has exactly 2 children, because having 1 child is impossible and 0 children means its a MATRIX
                 // and if the node is a matrix, then node.resolvable is null and the while block would stop
             }
@@ -56,12 +56,19 @@ public class LinearAlgebraEngine {
             rightMatrix = null;
 
             if (resolvablePointer.getChildren().size() == 2)
-                if (resolvablePointer.getNodeType() == ComputationNodeType.MULTIPLY) {
-                    rightMatrix = new SharedMatrix();
-                    rightMatrix.loadColumnMajor(resolvablePointer.getChildren().get(1).getMatrix());
+                switch (resolvablePointer.getNodeType()) {
+                    case MULTIPLY: {
+                        rightMatrix = new SharedMatrix();
+                        rightMatrix.loadColumnMajor(resolvablePointer.getChildren().get(1).getMatrix());
+                        break;
+                    }
+                    case TRANSPOSE:
+                    case NEGATE:
+                        throw new RuntimeException("Unary Operator Receive More Than Single Operand.");
+                    default:
+                        rightMatrix = new SharedMatrix(resolvablePointer.getChildren().get(1).getMatrix());
                 }
-                else
-                    rightMatrix = new SharedMatrix(resolvablePointer.getChildren().get(1).getMatrix());
+
 
 
             switch (resolvablePointer.getNodeType()) {
@@ -86,6 +93,8 @@ public class LinearAlgebraEngine {
                     tasks = createTransposeTasks();
                     break;
                 }
+                default:
+                    throw new RuntimeException("Unidentified Operator : " + resolvablePointer.getNodeType());
             }
 
             executor.submitAll(tasks);
@@ -117,21 +126,18 @@ public class LinearAlgebraEngine {
 
     public List<Runnable> createMultiplyTasks() {
         /// return tasks that perform row × matrix multiplication
-        // TODO we most likely get matrices as ROW-MAJOR , but our multiply only works on columns, and a simple transpose doesnt help
-        // TODO so we need to somehow lad th matrix to columns, maybe by load column major or something
-        // TODO hust get the matrix and load column major , thats it
 
-        try {
-            if (leftMatrix.getOrientation() != VectorOrientation.ROW_MAJOR)
-                throw new IllegalArgumentException("Left Matrix Orientation Mismatch");
-            if (rightMatrix.getOrientation() != VectorOrientation.COLUMN_MAJOR)
-                throw new IllegalArgumentException("Right Matrix Orientation Mismatch");
-            if (leftMatrix.get(0).length() != rightMatrix.get(0).length() )
-                throw new IllegalArgumentException("Matrix Length Mismatch");
-        } catch (Exception e) {
-            executor.shutdown();
-            throw new RuntimeException(e.getMessage());
-        }
+        // TODO: Delete Comments
+        // we most likely get matrices as ROW-MAJOR , but our multiply only works on columns, and a simple transpose doesnt help
+        // so we need to somehow lad th matrix to columns, maybe by load column major or something
+        // hust get the matrix and load column major , thats it
+
+        if (leftMatrix.getOrientation() != VectorOrientation.ROW_MAJOR)
+            throw new IllegalArgumentException("Left Matrix Orientation Is Not Row-Major");
+        if (rightMatrix.getOrientation() != VectorOrientation.COLUMN_MAJOR)
+            throw new IllegalArgumentException("Right Matrix Orientation Is Not Column-Major");
+        if (leftMatrix.get(0).length() != rightMatrix.get(0).length() )
+            throw new IllegalArgumentException("Matrix Length Mismatch");
 
         List<Runnable> tasks = new ArrayList<>(leftMatrix.length());
         for (int i = 0; i < leftMatrix.length(); i++) {

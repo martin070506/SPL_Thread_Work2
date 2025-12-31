@@ -6,10 +6,11 @@ import parser.*;
 
 public class Main {
     public static void main(String[] args) throws  IOException {
-//      /// main
+        // main
         int threads = Integer.parseInt(args[0]);
         String inputFilePath = args[1];
         String outputFilePath = args[2];
+
         try {
             LinearAlgebraEngine LAE = new LinearAlgebraEngine(threads);
             InputParser IP = new InputParser();
@@ -17,7 +18,6 @@ public class Main {
             ComputationNode Root = LAE.run(computationNode);
             OutputWriter.write(Root.getMatrix(), outputFilePath);
         } catch (Exception e){
-            System.out.println("Im Here");
             OutputWriter.write(e.getMessage(),outputFilePath);
             System.exit(1);
         }

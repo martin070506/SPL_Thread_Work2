@@ -5,6 +5,7 @@ import parser.ComputationNode;
 import parser.ComputationNodeType;
 import spl.lae.LinearAlgebraEngine;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 
 import static org.junit.jupiter.api.Assertions.*;
