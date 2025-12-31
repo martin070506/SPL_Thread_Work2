@@ -8,8 +8,6 @@ public class SharedVector {
     private VectorOrientation orientation;
     private ReadWriteLock lock = new java.util.concurrent.locks.ReentrantReadWriteLock();
 
-    private static final Object tieLock = new Object();
-
     public SharedVector(double[] vector, VectorOrientation orientation) {
         /// store vector data and its orientation
 
@@ -131,7 +129,7 @@ public class SharedVector {
 
         try {
             if (tieFlag)
-                synchronized (tieLock) {
+                synchronized (SharedVector.class) {
                     this.writeLock();
                     other.readLock();
 
@@ -196,7 +194,7 @@ public class SharedVector {
         try {
             double sum;
             if (tieFlag)
-                synchronized (tieLock) {
+                synchronized (SharedVector.class) {
                     this.readLock();
                     other.readLock();
                     sum = performDot(other);
