@@ -5,18 +5,21 @@ import java.text.ParseException;
 import parser.*;
 
 public class Main {
-    public static void main(String[] args) throws ParseException, IOException {
+    public static void main(String[] args) throws  IOException {
 //      /// main
-        try{
-            LinearAlgebraEngine LAE = new LinearAlgebraEngine(6);
+        int threads = Integer.parseInt(args[0]);
+        String inputFilePath = args[1];
+        String outputFilePath = args[2];
+        try {
+            LinearAlgebraEngine LAE = new LinearAlgebraEngine(threads);
             InputParser IP = new InputParser();
-            ComputationNode computationNode = IP.parse("example.json");
+            ComputationNode computationNode = IP.parse(inputFilePath);
             ComputationNode Root = LAE.run(computationNode);
-            OutputWriter.write(Root.getMatrix(), "out.json");
-        }catch(Exception e){
-            OutputWriter.write(e.getMessage(), "out.json");
+            OutputWriter.write(Root.getMatrix(), outputFilePath);
+        } catch (Exception e){
+            System.out.println("Im Here");
+            OutputWriter.write(e.getMessage(),outputFilePath);
+            System.exit(1);
         }
-
-
     }
 }

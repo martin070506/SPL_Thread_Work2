@@ -20,14 +20,13 @@ public class TiredThread extends Thread implements Comparable<TiredThread> {
 
     private final AtomicBoolean busy = new AtomicBoolean(false); // Indicates if the worker is currently executing a task
 
-    private final AtomicLong timeUsed = new AtomicLong(0); // Total time spent executing tasks
+    private  final  AtomicLong timeUsed = new AtomicLong(0); // Total time spent executing tasks
     private final AtomicLong timeIdle = new AtomicLong(0); // Total time spent idle
     private final AtomicLong idleStartTime = new AtomicLong(0); // Timestamp when the worker became idle
 
     public TiredThread(int id, double fatigueFactor) {
         this.id = id;
         this.fatigueFactor = fatigueFactor;
-        this.idleStartTime.set(System.nanoTime());
         setName(String.format("FF=%.2f", fatigueFactor));
     }
 
@@ -69,32 +68,32 @@ public class TiredThread extends Thread implements Comparable<TiredThread> {
      */
     public void shutdown() {
         ///
-        newTask(POISON_PILL);
+        try{
+            handoff.put(POISON_PILL);
+        }catch(InterruptedException e){
+            Thread.currentThread().interrupt();
+        }
     }
 
     @Override
     public void run() {
 
+        idleStartTime.set(System.nanoTime());
         while (alive.get()) {
             try {
                 Runnable task = handoff.take();
-
+                if (task == POISON_PILL) {
+                    alive.set(false);
+                    return;
+                }
                 timeIdle.addAndGet(System.nanoTime() - idleStartTime.get());
 
-                if (task == POISON_PILL)
-                    alive.set(false);
-                    // interrupt();
-                // INFO i commented because we made alive false but it still works without interrupting, because alive is false so the thread will just exit the run
-
-
                 busy.set(true);
-                long startWorkTime = System.nanoTime();
 
                 try {
                     task.run();
                 } catch (RuntimeException ignored) {}
                 finally {
-                    timeUsed.addAndGet(System.nanoTime() - startWorkTime);
                     busy.set(false);
                     idleStartTime.set(System.nanoTime());
                 }
@@ -111,5 +110,9 @@ public class TiredThread extends Thread implements Comparable<TiredThread> {
         ///
 
         return Double.compare(this.getFatigue(), o.getFatigue());
+    }
+
+    public void addTimeUsed(long duration) {
+        this.timeUsed.addAndGet(duration);
     }
 }

@@ -44,12 +44,21 @@ public class TiredExecutor {
 
         if (worker != null) {
             Runnable wrapped = () -> {
+                 // 1. Start Clock
+                long start = System.nanoTime();
                 try {
                     task.run();
                 } finally {
+                    long duration = System.nanoTime() - start; // 2. Stop Clock
+
                     synchronized(this) {
                         inFlight.decrementAndGet();
+
+                        // 3. Update Fatigue NOW (Before entering queue)
+                        worker.addTimeUsed(duration);
+                        // 4. Enter Queue (Sorted correctly!)
                         idleMinHeap.offer(worker);
+
                         notifyAll();
                     }
                 }
@@ -70,7 +79,6 @@ public class TiredExecutor {
             try {
                 wait();
             } catch (InterruptedException ignored) {}
-
     }
 
     public void shutdown() {
@@ -93,8 +101,8 @@ public class TiredExecutor {
         StringBuilder sb = new StringBuilder();
 
         for (TiredThread t : workers)
-            sb.append(String.format("Worker %d: Used = %dm(s), Idle = %d, Fatigue = %.2f\n",
-                    t.getWorkerId(), t.getTimeUsed() / 1000000, t.getTimeIdle(), t.getFatigue()));
+            sb.append(String.format("Worker %d: Used = %d, Idle = %d, Fatigue = %.2f\n",
+                    t.getWorkerId(), t.getTimeUsed() , t.getTimeIdle(), t.getFatigue()));
 
         return sb.toString();
     }

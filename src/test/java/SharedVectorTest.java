@@ -3,19 +3,10 @@
 import memory.SharedMatrix;
 import memory.SharedVector;
 import memory.VectorOrientation;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import parser.ComputationNode;
-import parser.ComputationNodeType;
-import parser.OutputWriter;
-import spl.lae.LinearAlgebraEngine;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SharedVectorTest {

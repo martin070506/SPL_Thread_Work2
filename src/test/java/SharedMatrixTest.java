@@ -1,16 +1,9 @@
 import memory.SharedMatrix;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import memory.SharedMatrix;
 import memory.SharedVector;
 import memory.VectorOrientation;
-import org.junit.jupiter.api.Test;
-import parser.OutputWriter;
-
 import java.util.Arrays;
-
-import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SharedMatrixTest {
@@ -59,31 +52,22 @@ public class SharedMatrixTest {
         sharedMatrix3=new SharedMatrix(matrix3);
         try {
             sharedMatrix3.loadColumnMajor(sharedMatrix3.readRowMajor());
-            double[][] arr=sharedMatrix3.readRowMajor();
+
 
             double [][]result = new double[][] {
                     {1.0, 4.0,7.0},
                     {2.0, 5.0,8.0},
                     {3.0, 6.0,9.0},
             };
-            assertEquals(arr.length,result.length);
-            assertEquals(arr[0].length,result[0].length);
-            for(int i=0;i<arr.length;i++){
-                for(int j=0;j<arr[0].length;j++){
-                    System.out.print(arr[i][j] +", ");
-
+            assertEquals(sharedMatrix3.length(),result.length);
+            assertEquals(sharedMatrix3.get(0).length(),result[0].length);
+            for (int i=0; i<result.length; i++){
+                for (int j=0; j<result[0].length; j++){
+                    assertEquals(result[i][j],sharedMatrix3.get(i).get(j));
                 }
-                System.out.println();
             }
-            System.out.println("---------------");
-            for(int i=0;i<result.length;i++){
-                for(int j=0;j<result[0].length;j++){
-                    System.out.print(result[i][j] +", ");
 
-                }
-                System.out.println();
-            }
-            assertArrayEquals(result,arr);
+
 
 
         }
@@ -137,7 +121,7 @@ public class SharedMatrixTest {
     @Test public void readRowMajor(){
         try{
             sharedMatrix1.loadRowMajor(matrix1);
-            assertEquals(sharedMatrix1.readRowMajor(),matrix1);
+            assertArrayEquals(sharedMatrix1.readRowMajor(),matrix1);
             sharedMatrix1.loadColumnMajor(matrix1);
             assertNotEquals(sharedMatrix1.readRowMajor(),matrix1);
         }
@@ -349,15 +333,13 @@ public class SharedMatrixTest {
         assertEquals(1, sharedMatrix1.length());
         assertEquals(VectorOrientation.COLUMN_MAJOR, sharedMatrix1.getOrientation());
 
-        double[][] result = sharedMatrix1.readRowMajor();
-        System.out.println("Result dimensions: " + result.length + "x" + result[0].length);
-        System.out.println("Result values: [" + result[0][0] + ", " + result[0][1] + ", " + result[0][2] + "]");
 
-        assertEquals(1, result.length);
-        assertEquals(3, result[0].length);
-        assertEquals(1.0, result[0][0], 0.0);
-        assertEquals(2.0, result[0][1], 0.0);
-        assertEquals(3.0, result[0][2], 0.0);
+
+        assertEquals(1, sharedMatrix1.length());
+        assertEquals(3, sharedMatrix1.get(0).length());
+        assertEquals(1.0, sharedMatrix1.get(0).get(0), 0.0);
+        assertEquals(2.0, sharedMatrix1.get(0).get(1), 0.0);
+        assertEquals(3.0, sharedMatrix1.get(0).get(2), 0.0);
         System.out.println("✓ Column major single column test passed\n");
     }
 
@@ -421,18 +403,19 @@ public class SharedMatrixTest {
         assertEquals(3, sharedMatrix1.length());
         assertEquals(VectorOrientation.COLUMN_MAJOR, sharedMatrix1.getOrientation());
 
-        double[][] result = sharedMatrix1.readRowMajor();
         System.out.println("Result matrix (should be transposed):");
-        for (int i = 0; i < result.length; i++) {
-            System.out.println(Arrays.toString(result[i]));
-        }
+
 
         double[][] expected = new double[][]{
                 {1.0, 4.0},
                 {2.0, 5.0},
                 {3.0, 6.0}
         };
-        assertArrayEquals(expected, result);
+        for (int i=0; i<expected.length; i++){
+            for (int j=0; j<expected[0].length; j++){
+                assertEquals(expected[i][j],sharedMatrix1.get(i).get(j));
+            }
+        }
         System.out.println("✓ Column major rectangular test passed\n");
     }
 
@@ -476,11 +459,10 @@ public class SharedMatrixTest {
     public void testLargeMatrix() {
         System.out.println("=== Testing Large Matrix (10x10) ===");
         double[][] large = new double[10][10];
-        for (int i = 0; i < 10; i++) {
-            for (int j = 0; j < 10; j++) {
+
+        for (int i = 0; i < 10; i++)
+            for (int j = 0; j < 10; j++)
                 large[i][j] = i * 10 + j;
-            }
-        }
 
         System.out.println("Loading 10x10 matrix...");
         sharedMatrix1.loadRowMajor(large);
@@ -501,13 +483,13 @@ public class SharedMatrixTest {
         System.out.println("Matrix length: " + sharedMatrix1.length());
 
         System.out.println("Attempting to get index 5 (should throw exception)...");
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+        assertThrows(IndexOutOfBoundsException.class, () -> {
             sharedMatrix1.get(5);
         });
         System.out.println("✓ Exception thrown for index 5");
 
         System.out.println("Attempting to get index -1 (should throw exception)...");
-        assertThrows(ArrayIndexOutOfBoundsException.class, () -> {
+        assertThrows(IndexOutOfBoundsException.class, () -> {
             sharedMatrix1.get(-1);
         });
         System.out.println("✓ Exception thrown for index -1");
@@ -619,7 +601,83 @@ public class SharedMatrixTest {
         System.out.println("✓ Very small values test passed\n");
     }
 
+    @Test
+    public void testReadWriteConcurrency() throws InterruptedException {
+        System.out.println("=== Testing Read/Write Locks Concurrency ===");
 
+        double[][] allOnes = {{1.0, 1.0}, {1.0, 1.0}};
+        double[][] allTwos = {{2.0, 2.0}, {2.0, 2.0}};
 
+        sharedMatrix1.loadRowMajor(allOnes);
 
+        final boolean[] stop = {false};
+        final boolean[] failed = {false};
+
+        Thread writer = new Thread(() -> {
+            while (!stop[0]) {
+                sharedMatrix1.loadRowMajor(allTwos);
+                sharedMatrix1.loadRowMajor(allOnes);
+            }
+        });
+
+        Thread reader = new Thread(() -> {
+            while (!stop[0]) {
+                double[][] res = sharedMatrix1.readRowMajor();
+                double firstVal = res[0][0];
+
+                if (res[0][1] != firstVal || res[1][0] != firstVal || res[1][1] != firstVal) {
+                    failed[0] = true;
+                    System.err.println("Lock failed! Found mixed values: " + Arrays.deepToString(res));
+                    stop[0] = true;
+                }
+            }
+        });
+
+        writer.start();
+        reader.start();
+
+        Thread.sleep(100);
+
+        stop[0] = true;
+        writer.join();
+        reader.join();
+
+        assertFalse(failed[0], "Read/Write locks failed - inconsistent data read");
+        System.out.println("✓ Read/Write concurrency passed\n");
+    }
+
+    @Test
+    public void testWriteWriteConcurrency() throws InterruptedException {
+        System.out.println("=== Testing Write/Write Locks Concurrency ===");
+
+        final boolean[] stop = {false};
+
+        Thread t1 = new Thread(() -> {
+            while (!stop[0])
+                sharedMatrix1.loadRowMajor(matrix1);
+        });
+
+        Thread t2 = new Thread(() -> {
+            while (!stop[0])
+                sharedMatrix1.loadColumnMajor(matrix2);
+        });
+
+        t1.start();
+        t2.start();
+
+        Thread.sleep(100);
+
+        stop[0] = true;
+        t1.join(1000);
+        t2.join(1000);
+
+        if (t1.isAlive() || t2.isAlive())
+            fail("Deadlock detected between two writers!");
+
+        double[][] result = sharedMatrix1.readRowMajor();
+        assertEquals(2, result.length);
+        assertEquals(2, result[0].length);
+
+        System.out.println("✓ Write/Write concurrency passed\n");
+    }
 }
