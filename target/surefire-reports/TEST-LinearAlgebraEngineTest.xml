@@ -1,203 +1,149 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="LinearAlgebraEngineTest" time="0.142" tests="8" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="LinearAlgebraEngineTest" time="0.045" tests="8" errors="0" skipped="0" failures="0">
   <properties>
-    <property name="java.specification.version" value="24"/>
-    <property name="sun.cpu.isalist" value="amd64"/>
-    <property name="sun.jnu.encoding" value="Cp1252"/>
-    <property name="java.class.path" value="C:\Users\malin\OneDrive\Desktop\Skeleton\target\test-classes;C:\Users\malin\OneDrive\Desktop\Skeleton\target\classes;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar;C:\Users\malin\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\malin\.m2\repository\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar;C:\Users\malin\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.2\junit-jupiter-engine-5.10.2.jar;C:\Users\malin\.m2\repository\org\junit\platform\junit-platform-engine\1.10.2\junit-platform-engine-1.10.2.jar;C:\Users\malin\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.17.1\jackson-databind-2.17.1.jar;C:\Users\malin\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.17.1\jackson-annotations-2.17.1.jar;C:\Users\malin\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.17.1\jackson-core-2.17.1.jar;"/>
-    <property name="java.vm.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.version" value="25"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/liav/IdeaProjects/SPL_Thread_Work2/target/test-classes:/Users/liav/IdeaProjects/SPL_Thread_Work2/target/classes:/Users/liav/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/Users/liav/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/liav/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/liav/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/liav/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/liav/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/Users/liav/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/liav/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/Users/liav/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.17.1/jackson-databind-2.17.1.jar:/Users/liav/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.17.1/jackson-annotations-2.17.1.jar:/Users/liav/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.17.1/jackson-core-2.17.1.jar:"/>
+    <property name="java.vm.vendor" value="Homebrew"/>
     <property name="sun.arch.data.model" value="64"/>
-    <property name="user.variant" value=""/>
-    <property name="java.vendor.url" value="https://java.oracle.com/"/>
-    <property name="user.timezone" value="Asia/Jerusalem"/>
-    <property name="user.country.format" value="IL"/>
-    <property name="os.name" value="Windows 11"/>
-    <property name="java.vm.specification.version" value="24"/>
+    <property name="java.vendor.url" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="25"/>
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
-    <property name="user.country" value="US"/>
-    <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-24\bin"/>
-    <property name="sun.java.command" value="C:\Users\malin\AppData\Local\Temp\surefire16953839626677172537\surefirebooter-20251230221632206_3.jar C:\Users\malin\AppData\Local\Temp\surefire16953839626677172537 2025-12-30T22-16-32_089-jvmRun1 surefire-20251230221632206_1tmp surefire_0-20251230221632206_2tmp"/>
+    <property name="user.country" value="IL"/>
+    <property name="sun.boot.library.path" value="/usr/local/Cellar/openjdk/25.0.1/libexec/openjdk.jdk/Contents/Home/lib"/>
+    <property name="sun.java.command" value="/Users/liav/IdeaProjects/SPL_Thread_Work2/target/surefire/surefirebooter-20260101002710602_3.jar /Users/liav/IdeaProjects/SPL_Thread_Work2/target/surefire 2026-01-01T00-27-10_500-jvmRun1 surefire-20260101002710602_1tmp surefire_0-20260101002710602_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
     <property name="jdk.debug" value="release"/>
-    <property name="surefire.test.class.path" value="C:\Users\malin\OneDrive\Desktop\Skeleton\target\test-classes;C:\Users\malin\OneDrive\Desktop\Skeleton\target\classes;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.2\junit-jupiter-5.10.2.jar;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.2\junit-jupiter-api-5.10.2.jar;C:\Users\malin\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\malin\.m2\repository\org\junit\platform\junit-platform-commons\1.10.2\junit-platform-commons-1.10.2.jar;C:\Users\malin\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.2\junit-jupiter-params-5.10.2.jar;C:\Users\malin\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.2\junit-jupiter-engine-5.10.2.jar;C:\Users\malin\.m2\repository\org\junit\platform\junit-platform-engine\1.10.2\junit-platform-engine-1.10.2.jar;C:\Users\malin\.m2\repository\com\fasterxml\jackson\core\jackson-databind\2.17.1\jackson-databind-2.17.1.jar;C:\Users\malin\.m2\repository\com\fasterxml\jackson\core\jackson-annotations\2.17.1\jackson-annotations-2.17.1.jar;C:\Users\malin\.m2\repository\com\fasterxml\jackson\core\jackson-core\2.17.1\jackson-core-2.17.1.jar;"/>
+    <property name="surefire.test.class.path" value="/Users/liav/IdeaProjects/SPL_Thread_Work2/target/test-classes:/Users/liav/IdeaProjects/SPL_Thread_Work2/target/classes:/Users/liav/.m2/repository/org/junit/jupiter/junit-jupiter/5.10.2/junit-jupiter-5.10.2.jar:/Users/liav/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.10.2/junit-jupiter-api-5.10.2.jar:/Users/liav/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/liav/.m2/repository/org/junit/platform/junit-platform-commons/1.10.2/junit-platform-commons-1.10.2.jar:/Users/liav/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/liav/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.10.2/junit-jupiter-params-5.10.2.jar:/Users/liav/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.10.2/junit-jupiter-engine-5.10.2.jar:/Users/liav/.m2/repository/org/junit/platform/junit-platform-engine/1.10.2/junit-platform-engine-1.10.2.jar:/Users/liav/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.17.1/jackson-databind-2.17.1.jar:/Users/liav/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.17.1/jackson-annotations-2.17.1.jar:/Users/liav/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.17.1/jackson-core-2.17.1.jar:"/>
     <property name="sun.cpu.endian" value="little"/>
-    <property name="user.home" value="C:\Users\malin"/>
-    <property name="user.language" value="en"/>
+    <property name="user.home" value="/Users/liav"/>
+    <property name="user.language" value="iw"/>
     <property name="java.specification.vendor" value="Oracle Corporation"/>
-    <property name="java.version.date" value="2025-04-15"/>
-    <property name="java.home" value="C:\Program Files\Java\jdk-24"/>
-    <property name="file.separator" value="\"/>
-    <property name="basedir" value="C:\Users\malin\OneDrive\Desktop\Skeleton"/>
+    <property name="java.version.date" value="2025-10-21"/>
+    <property name="java.home" value="/usr/local/Cellar/openjdk/25.0.1/libexec/openjdk.jdk/Contents/Home"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/liav/IdeaProjects/SPL_Thread_Work2"/>
     <property name="java.vm.compressedOopsMode" value="Zero based"/>
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\malin\AppData\Local\Temp\surefire16953839626677172537\surefirebooter-20251230221632206_3.jar"/>
-    <property name="user.script" value=""/>
+    <property name="apple.awt.application.name" value="ForkedBooter"/>
+    <property name="surefire.real.class.path" value="/Users/liav/IdeaProjects/SPL_Thread_Work2/target/surefire/surefirebooter-20260101002710602_3.jar"/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
-    <property name="java.runtime.version" value="24.0.1+9-30"/>
-    <property name="user.name" value="malin"/>
-    <property name="stdout.encoding" value="Cp1252"/>
-    <property name="path.separator" value=";"/>
-    <property name="os.version" value="10.0"/>
-    <property name="java.runtime.name" value="Java(TM) SE Runtime Environment"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="25.0.1"/>
+    <property name="user.name" value="liav"/>
+    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="15.7.2"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
     <property name="file.encoding" value="UTF-8"/>
-    <property name="java.vm.name" value="Java HotSpot(TM) 64-Bit Server VM"/>
-    <property name="localRepository" value="C:\Users\malin\.m2\repository"/>
-    <property name="java.vendor.url.bug" value="https://bugreport.java.com/bugreport/"/>
-    <property name="java.io.tmpdir" value="C:\Users\malin\AppData\Local\Temp\"/>
-    <property name="java.version" value="24.0.1"/>
-    <property name="user.dir" value="C:\Users\malin\OneDrive\Desktop\Skeleton"/>
-    <property name="os.arch" value="amd64"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Homebrew"/>
+    <property name="localRepository" value="/Users/liav/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/hz/fjrc8tzn7hbdrkbpfnkmbn7c0000gp/T/"/>
+    <property name="java.version" value="25.0.1"/>
+    <property name="user.dir" value="/Users/liav/IdeaProjects/SPL_Thread_Work2"/>
+    <property name="os.arch" value="x86_64"/>
     <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
-    <property name="sun.os.patch.level" value=""/>
-    <property name="native.encoding" value="Cp1252"/>
-    <property name="java.library.path" value="C:\Program Files\Java\jdk-24\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\java8path;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\Git\cmd;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Docker\Docker\resources\bin;C:\Program Files\PuTTY\;C:\Program Files\Java\jdk-24\bin;C:\Program Files\apache-maven-3.9.12\bin;C:\Users\malin\AppData\Local\Programs\Python\Launcher\;C:\Users\malin\AppData\Local\Microsoft\WindowsApps;C:\msys64\ucrt64\bin;D:\Microsoft VS Code\bin;C:\flutter_folder\flutter_windows_3.32.8-stable\flutter\bin;C:\Users\malin\.dotnet\tools;."/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/liav/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
     <property name="java.vm.info" value="mixed mode, sharing"/>
-    <property name="stderr.encoding" value="Cp1252"/>
-    <property name="java.vendor" value="Oracle Corporation"/>
-    <property name="java.vm.version" value="24.0.1+9-30"/>
-    <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
-    <property name="java.class.version" value="68.0"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Homebrew"/>
+    <property name="java.vm.version" value="25.0.1"/>
+    <property name="stdin.encoding" value="UTF-8"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="69.0"/>
   </properties>
-  <testcase name="testSimpleAddition" classname="LinearAlgebraEngineTest" time="0.036">
+  <testcase name="testSimpleAddition" classname="LinearAlgebraEngineTest" time="0.011">
     <system-out><![CDATA[ADD
-0.0ID: 0
-0.0ID: 1
-0.0ID: 2
-0.0ID: 3
-Chose: ID: 0
-0.0ID: 3
-0.0ID: 1
-0.0ID: 2
-Chose: ID: 3
-Worker 0: Used = 19400, Idle = 6567100, Fatigue = 17378.23
+
+Worker 0: Used = 26691, Idle = 5907294, Fatigue = 34667.04
 Worker 1: Used = 0, Idle = 0, Fatigue = 0.00
 Worker 2: Used = 0, Idle = 0, Fatigue = 0.00
-Worker 3: Used = 7300, Idle = 6441500, Fatigue = 5079.33
+Worker 3: Used = 22218, Idle = 5254404, Fatigue = 14238.71
 
-Fairness : 2.017e+08
+Fairness : 8.066e+08
+
 
 ]]></system-out>
   </testcase>
-  <testcase name="testMatrixMultiplication" classname="LinearAlgebraEngineTest" time="0.008">
+  <testcase name="testMatrixMultiplication" classname="LinearAlgebraEngineTest" time="0.004">
     <system-out><![CDATA[MULTIPLY
-0.0ID: 0
-0.0ID: 1
-0.0ID: 2
-0.0ID: 3
-Chose: ID: 0
-0.0ID: 3
-0.0ID: 1
-0.0ID: 2
-Chose: ID: 3
-Worker 0: Used = 136900, Idle = 1351500, Fatigue = 111819.60
+
+Worker 0: Used = 26509, Idle = 1509980, Fatigue = 17993.09
 Worker 1: Used = 0, Idle = 0, Fatigue = 0.00
 Worker 2: Used = 0, Idle = 0, Fatigue = 0.00
-Worker 3: Used = 36800, Idle = 1598100, Fatigue = 38175.63
+Worker 3: Used = 12622, Idle = 935286, Fatigue = 8720.43
 
-Fairness : 8.336e+09
+Fairness : 2.214e+08
+
 
 ]]></system-out>
   </testcase>
-  <testcase name="testComplexTreeExecution" classname="LinearAlgebraEngineTest" time="0.009">
+  <testcase name="testComplexTreeExecution" classname="LinearAlgebraEngineTest" time="0.003">
     <system-out><![CDATA[ADD
-0.0ID: 0
-0.0ID: 1
-0.0ID: 2
-0.0ID: 3
-Chose: ID: 0
-0.0ID: 3
-0.0ID: 1
-0.0ID: 2
-Chose: ID: 3
 MULTIPLY
-0.0ID: 2
-0.0ID: 1
-8209.502487506117ID: 0
-13170.776461160287ID: 3
-Chose: ID: 2
-0.0ID: 1
-13170.776461160287ID: 3
-8209.502487506117ID: 0
-Chose: ID: 1
-Worker 0: Used = 16000, Idle = 2643200, Fatigue = 8209.50
-Worker 1: Used = 63900, Idle = 3367800, Fatigue = 94377.53
-Worker 2: Used = 104800, Idle = 2669500, Fatigue = 100742.89
-Worker 3: Used = 15100, Idle = 1506700, Fatigue = 13170.78
 
-Fairness : 7.579e+09
+Worker 0: Used = 7491, Idle = 903028, Fatigue = 6032.34
+Worker 1: Used = 10673, Idle = 813650, Fatigue = 11578.25
+Worker 2: Used = 11554, Idle = 588558, Fatigue = 17036.03
+Worker 3: Used = 4419, Idle = 280384, Fatigue = 6288.44
+
+Fairness : 8.130e+07
+
 
 ]]></system-out>
   </testcase>
-  <testcase name="testAssociativeAddition" classname="LinearAlgebraEngineTest" time="0.005">
+  <testcase name="testAssociativeAddition" classname="LinearAlgebraEngineTest" time="0.003">
     <system-out><![CDATA[ADD
-0.0ID: 0
-0.0ID: 1
-0.0ID: 2
-0.0ID: 3
-Chose: ID: 0
 ADD
-0.0ID: 3
-0.0ID: 1
-0.0ID: 2
-11628.622516309637ID: 0
-Chose: ID: 3
-Worker 0: Used = 8100, Idle = 960300, Fatigue = 11628.62
+
+Worker 0: Used = 6614, Idle = 786840, Fatigue = 5762.65
 Worker 1: Used = 0, Idle = 0, Fatigue = 0.00
 Worker 2: Used = 0, Idle = 0, Fatigue = 0.00
-Worker 3: Used = 22300, Idle = 954900, Fatigue = 24929.21
+Worker 3: Used = 3057, Idle = 387679, Fatigue = 2747.81
 
-Fairness : 4.226e+08
+Fairness : 2.265e+07
+
 
 ]]></system-out>
   </testcase>
-  <testcase name="testDimensionMismatchMultiply" classname="LinearAlgebraEngineTest" time="0.006">
+  <testcase name="testDimensionMismatchMultiply" classname="LinearAlgebraEngineTest" time="0.003">
     <system-out><![CDATA[MULTIPLY
-Fairness : 0.000e+00
-
 ]]></system-out>
   </testcase>
-  <testcase name="testDimensionMismatchAdd" classname="LinearAlgebraEngineTest" time="0.005">
+  <testcase name="testDimensionMismatchAdd" classname="LinearAlgebraEngineTest" time="0.002">
     <system-out><![CDATA[ADD
 ]]></system-out>
   </testcase>
-  <testcase name="testNegate" classname="LinearAlgebraEngineTest" time="0.015">
+  <testcase name="testNegate" classname="LinearAlgebraEngineTest" time="0.003">
     <system-out><![CDATA[NEGATE
-0.0ID: 0
-0.0ID: 1
-0.0ID: 2
-0.0ID: 3
-Chose: ID: 0
-0.0ID: 3
-0.0ID: 1
-0.0ID: 2
-Chose: ID: 3
-Worker 0: Used = 35400, Idle = 9259500, Fatigue = 37704.56
+
+Worker 0: Used = 9360, Idle = 1229659, Fatigue = 12519.52
 Worker 1: Used = 0, Idle = 0, Fatigue = 0.00
 Worker 2: Used = 0, Idle = 0, Fatigue = 0.00
-Worker 3: Used = 15600, Idle = 3573500, Fatigue = 21404.10
+Worker 3: Used = 7272, Idle = 676180, Fatigue = 3868.57
 
-Fairness : 1.006e+09
+Fairness : 1.046e+08
+
 
 ]]></system-out>
   </testcase>
-  <testcase name="testTranspose" classname="LinearAlgebraEngineTest" time="0.008">
+  <testcase name="testTranspose" classname="LinearAlgebraEngineTest" time="0.004">
     <system-out><![CDATA[TRANSPOSE
-0.0ID: 0
-0.0ID: 1
-0.0ID: 2
-0.0ID: 3
-Chose: ID: 0
-0.0ID: 3
-0.0ID: 1
-0.0ID: 2
-Chose: ID: 3
-Worker 0: Used = 29800, Idle = 2025100, Fatigue = 43327.96
+
+Worker 0: Used = 10318, Idle = 1605013, Fatigue = 9223.26
 Worker 1: Used = 0, Idle = 0, Fatigue = 0.00
 Worker 2: Used = 0, Idle = 0, Fatigue = 0.00
-Worker 3: Used = 8600, Idle = 1685700, Fatigue = 11739.76
+Worker 3: Used = 6768, Idle = 968163, Fatigue = 10060.51
 
-Fairness : 1.257e+09
+Fairness : 9.332e+07
+
 
 ]]></system-out>
   </testcase>

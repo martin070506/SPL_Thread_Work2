@@ -109,7 +109,7 @@ public class SharedVectorTest {
             sMatrix1.get(i).transpose();
         }
         sVec1.vecMatMul(sMatrix1);
-        assertEquals(sVec1.length(),3);
+        assertEquals(3,sVec1.length());
     }
 
     @Test void MultiplyTest1() throws Exception {
